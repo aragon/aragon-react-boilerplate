@@ -1,0 +1,6 @@
+{
+  "appName": "app.aragonpm.test",
+  "version": "1.0.0",
+  "roles": [],
+  "path": "contracts/App.sol"
+}
