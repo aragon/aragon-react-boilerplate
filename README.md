@@ -1,5 +1,8 @@
 # Aragon React Boilerplate
 
+> 🕵️ [Find more boilerplates using GitHub](https://github.com/search?q=topic:aragon-boilerplate) | 
+> ✨ [Official boilerplates](https://github.com/search?q=topic:aragon-boilerplate+org:aragon)
+
 React boilerplate for Aragon applications.
 
 ## Usage
