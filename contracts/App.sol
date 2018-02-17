@@ -1,9 +1,9 @@
 pragma solidity ^0.4.4;
 
-import "@aragon/core/contracts/apps/App.sol";
-import "@aragon/core/contracts/common/Initializable.sol";
+import "@aragon/os/contracts/apps/AragonApp.sol";
 
-contract Application is Initializable, App {
+
+contract App is AragonApp {
 	////
 	////	           ....
 	////	       .,,,,..,,,,.

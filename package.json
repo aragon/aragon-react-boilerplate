@@ -1,28 +1,20 @@
 {
-  "name": "aragon-react-boilerplate",
+  "name": "app-name",
   "version": "1.0.0",
   "description": "",
-  "main": "truffle.js",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
-    "@aragon/core": "^1.0.2",
-    "@aragon/node-aragon": "^1.1.0",
-    "@aragon/ui": "^0.3.0"
+    "@aragon/os": "^3.0.2",
+    "@aragon/client": "^1.0.0-beta.2",
+    "@aragon/ui": "^0.4.0"
   },
   "devDependencies": {
-    "webpack": "^3.8.1"
+    "@aragon/cli": "^2.0.0"
   },
   "scripts": {
     "test": "truffle test",
-    "build": "truffle compile",
+    "compile": "truffle compile",
     "publish": "aragon-dev-cli publish"
   },
   "keywords": [],
-  "author": "Aragon Institution MTU <contact@aragon.one>",
-  "contributors": [
-    "Oliver Nordbjerg <oliver@aragon.one>"
-  ],
   "license": "GPL-3.0"
 }
