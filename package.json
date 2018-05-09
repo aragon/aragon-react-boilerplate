@@ -9,9 +9,11 @@
     "@aragon/cli": "^2.0.0"
   },
   "scripts": {
+    "start": "aragon run",
     "test": "truffle test",
     "compile": "truffle compile",
-    "publish": "aragon-dev-cli publish"
+    "build": "npm run compile",
+    "publish": "aragon publish"
   },
   "keywords": [],
   "license": "GPL-3.0"
