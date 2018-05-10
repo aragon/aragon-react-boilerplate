@@ -7,6 +7,13 @@ import {
   observe
 } from '@aragon/ui'
 import Aragon, { providers } from '@aragon/client'
+import styled from 'styled-components'
+
+const AppContainer = styled(AragonApp)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 export default class App extends React.Component {
   constructor () {
@@ -19,21 +26,17 @@ export default class App extends React.Component {
   }
 
   render () {
+    console.log(this.app.increment)
+
     return (
-      <AragonApp backgroundLogo>
-        <Button onClick={this.decrement.bind(this)} mode='strong' emphasis='negative'>-</Button>
-        <ObservedCount observable={this.state$} />
-        <Button onClick={this.increment.bind(this)} mode='strong' emphasis='positive'>+</Button>
-      </AragonApp>
+      <AppContainer>
+        <div>
+          <ObservedCount observable={this.state$} />
+          <Button onClick={() => this.app.decrement(1)}>Decrement</Button>
+          <Button onClick={() => this.app.increment(1)}>Increment</Button>
+        </div>
+      </AppContainer>
     )
-  }
-
-  increment () {
-    this.app.decrement(1)
-  }
-
-  decrement () {
-    this.app.increment(1)
   }
 }
 
@@ -41,5 +44,5 @@ const ObservedCount = observe(
   (state$) => state$,
   { count: 0 }
 )(
-  ({ count }) => <Text size='xxlarge'>{count}</Text>
+  ({ count }) => <Text.Block style={{ textAlign: 'center' }} size='xxlarge'>{count}</Text.Block>
 )
