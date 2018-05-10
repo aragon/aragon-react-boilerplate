@@ -1,6 +1,12 @@
 {
-  "appName": "app.open.aragonpm.eth",
+  "appName": "app.aragonpm.eth",
   "version": "1.0.0",
-  "roles": [],
-  "path": "contracts/App.sol"
+  "roles": [
+    {
+      "name": "Increment the counter",
+      "id": "INCREMENT_ROLE",
+      "params": []
+    }
+  ],
+  "path": "contracts/CounterApp.sol"
 }
