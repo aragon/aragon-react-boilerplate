@@ -10,9 +10,9 @@ app.store((state, event) => {
 
   switch (event.event) {
     case 'Increment':
-      return { count: state.count + event.returnValues.step }
+      return { count: parseInt(state.count) + parseInt(event.returnValues.step) }
     case 'Decrement':
-      return { count: state.count - event.returnValues.step }
+      return { count: parseInt(state.count) - parseInt(event.returnValues.step) }
     default:
       return state
   }
