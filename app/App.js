@@ -22,7 +22,14 @@ export default class App extends React.Component {
     this.app = new Aragon(
       new providers.WindowMessage(window.parent)
     )
-    this.state$ = this.app.state()
+    this.state = {}
+    // ugly hack: aragon.js doesn't have handshakes yet
+    // the wrapper is sending a message to the app before the app's ready to handle it
+    // the iframe needs some time to set itself up,
+    // so we put a timeout to wait for 5s before subscribing
+    setTimeout(() => {
+      this.setState({ state$: this.app.state() })
+    }, 5000)
   }
 
   render () {
@@ -31,7 +38,7 @@ export default class App extends React.Component {
     return (
       <AppContainer>
         <div>
-          <ObservedCount observable={this.state$} />
+          <ObservedCount observable={this.state.state$} />
           <Button onClick={() => this.app.decrement(1)}>Decrement</Button>
           <Button onClick={() => this.app.increment(1)}>Increment</Button>
         </div>
