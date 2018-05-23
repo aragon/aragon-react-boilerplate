@@ -21,6 +21,6 @@ contract CounterApp is AragonApp {
 
     function decrement(int step) auth(DECREMENT_ROLE) external {
         value -= step;
-        Decrement(msg.sender, -step);
+        Decrement(msg.sender, step);
     }
 }
