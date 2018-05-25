@@ -20,9 +20,9 @@ export default class App extends React.Component {
     return (
       <AppContainer>
         <div>
-          <ObservedCount observable={this.state.observable} />
-          <Button onClick={() => this.app.decrement(1)}>Decrement</Button>
-          <Button onClick={() => this.app.increment(1)}>Increment</Button>
+          <ObservedCount observable={this.props.observable} />
+          <Button onClick={() => this.props.app.decrement(1)}>Decrement</Button>
+          <Button onClick={() => this.props.app.increment(1)}>Increment</Button>
         </div>
       </AppContainer>
     )

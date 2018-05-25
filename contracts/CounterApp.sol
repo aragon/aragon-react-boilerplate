@@ -1,7 +1,7 @@
 pragma solidity ^0.4.4;
 
 import "@aragon/os/contracts/apps/AragonApp.sol";
-import "@aragon/os/lib/zeppelin/math/SafeMath.sol";
+import "@aragon/os/contracts/lib/zeppelin/math/SafeMath.sol";
 
 contract CounterApp is AragonApp {
     using SafeMath for uint256;
