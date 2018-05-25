@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "@aragon/os": "^3.0.2",
+    "@aragon/os": "3.1.9",
     "@aragon/client": "^1.0.0-beta.6",
     "@aragon/ui": "^0.11.0",
     "react": "^16.3.2",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "@aragon/cli": "^4.0.0",
     "parcel-bundler": "^1.8.1",
-    "truffle": "^4.0.5"
+    "truffle": "4.0.5"
   },
   "scripts": {
     "start": "aragon run",
