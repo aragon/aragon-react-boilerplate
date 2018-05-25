@@ -5,15 +5,26 @@ const app = new Aragon()
 const initialState = {
   count: 0
 }
-app.store((state, event) => {
+app.store(async (state, event) => {
   if (state === null) state = initialState
 
   switch (event.event) {
     case 'Increment':
-      return { count: parseInt(state.count, 10) + parseInt(event.returnValues.step, 10) }
+      return { count: await getValue() }
     case 'Decrement':
-      return { count: parseInt(state.count, 10) - parseInt(event.returnValues.step, 10) }
+      return { count: await getValue() }
     default:
       return state
   }
 })
+
+function getValue() {
+  // Get current value from the contract by calling the public getter
+  return new Promise(resolve => {
+    app
+      .call('value')
+      .first()
+      .map(value => parseInt(value, 10))
+      .subscribe(resolve)
+  })
+}
