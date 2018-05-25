@@ -17,11 +17,19 @@ contract CounterApp is AragonApp {
     bytes32 constant public INCREMENT_ROLE = keccak256("INCREMENT_ROLE");
     bytes32 constant public DECREMENT_ROLE = keccak256("DECREMENT_ROLE");
 
+    /**
+     * @notice Increment the counter by `step`
+     * @param step Amount to increment by
+     */
     function increment(uint256 step) auth(INCREMENT_ROLE) external {
         value = value.add(step);
         Increment(msg.sender, step);
     }
 
+    /**
+     * @notice Decrement the counter by `step`
+     * @param step Amount to decrement by
+     */
     function decrement(uint256 step) auth(DECREMENT_ROLE) external {
         value = value.sub(step);
         Decrement(msg.sender, step);
