@@ -2,7 +2,7 @@
   "name": "Counter",
   "description": "An application for Aragon",
   "icons": [{
-    "src": "images/icon.png",
+    "src": "/dist/images/icon.png",
     "sizes": "22x22"
   }],
   "start_url": "/dist/index.html",
