@@ -10,4 +10,5 @@ build
 package-lock.json
 yarn.lock
 
-.ipfsignore
+# Others
+test
