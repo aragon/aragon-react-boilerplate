@@ -27,7 +27,7 @@
     "build:app": "parcel build app/index.html -d dist/ --public-url '.'",
     "build:script": "parcel build app/script.js -d dist/",
     "build": "npm run compile && npm run sync-assets && npm run build:app && npm run build:script",
-    "publish": "aragon publish"
+    "publish": "aragon apm publish"
   },
   "keywords": [],
   "license": "MIT"
