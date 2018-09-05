@@ -5,28 +5,31 @@
   "dependencies": {
     "@aragon/os": "3.1.9",
     "@aragon/client": "^1.0.0-beta.8",
-    "@aragon/ui": "^0.11.0",
+    "@aragon/ui": "^0.16.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@aragon/cli": "^4.0.6",
+    "babel-core": "^6.26.3",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
-    "parcel-bundler": "^1.9.3",
-    "truffle": "4.0.5"
+    "parcel-bundler": "^1.9.3"
   },
   "scripts": {
-    "start": "aragon run",
+    "start": "npm run start:aragon:ipfs",
+    "start:aragon:ipfs": "aragon run",
+    "start:aragon:http": "aragon run --http localhost:4001 --http-served-from ./dist",
+    "start:app": "npm run sync-assets && npm run build:script -- --no-minify && parcel serve app/index.html -p 4001 --out-dir dist/",
     "test": "aragon contracts test",
     "compile": "aragon contracts compile",
     "sync-assets": "mkdir -p dist; rsync -rtu \"$(dirname $(node -p 'require.resolve(\"@aragon/ui\")'))/\" dist/aragon-ui",
-    "build:app": "parcel build app/index.html -d dist/ --public-url '.'",
-    "build:script": "parcel build app/script.js -d dist/",
-    "build": "npm run compile && npm run sync-assets && npm run build:app && npm run build:script",
+    "build:app": "parcel build app/index.html -d dist/ --public-url '.' --no-cache",
+    "build:script": "parcel build app/script.js -d dist/ --no-cache",
+    "build": "npm run sync-assets && npm run build:app && npm run build:script",
     "publish": "aragon apm publish"
   },
   "keywords": [],
