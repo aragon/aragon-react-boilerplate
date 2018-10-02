@@ -24,7 +24,6 @@
       {
         "displayName": true
       }
-    ],
-    "@babel/plugin-transform-runtime"
+    ]
   ]
 }
