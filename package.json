@@ -32,7 +32,7 @@
     "build": "npm run sync-assets && npm run build:app && npm run build:script",
     "publish:content": "aragon apm publish minor --only-content",
     "publish:minor": "aragon apm publish minor",
-    "publish:major": "aragon apm publish major CounterApp"
+    "publish:major": "aragon apm publish major"
   },
   "keywords": [],
   "license": "MIT"
