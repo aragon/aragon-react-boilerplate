@@ -41,9 +41,8 @@ Running your app using IPFS will mimic the production environment that will be u
 - **build:app**: Builds the front-end
 - **build:script**: Builds the background script
 - **test**: Runs tests for the contracts
-- **publish:content**: Builds the apps publishes to IPFS
-- **publish:minor**: Builds the apps and the contracts and publishes them to IPFS and APM
-- **publish:major**: Builds the apps and the contracts and publishes them to IPFS and APM. Deployed contract will default to the contract name specified in the arapp.json file
+- **publish:minor**: Release a minor version to aragonPM
+- **publish:major**: Release a major version to aragonPM with a potentially new contract address for on-chain upgrades
 
 ### Libraries
 
