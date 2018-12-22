@@ -11,11 +11,11 @@
       "params": []
     }
   ],
-  "path": "contracts/CounterApp.sol",
   "environments": {
     "default": {
       "network": "development",
       "appName": "app.aragonpm.eth"
     }
-  }
+  },
+  "path": "contracts/CounterApp.sol"
 }
