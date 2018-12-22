@@ -1,6 +1,4 @@
 {
-  "appName": "app.aragonpm.eth",
-  "version": "1.0.0",
   "roles": [
     {
       "name": "Increment the counter",
@@ -13,5 +11,11 @@
       "params": []
     }
   ],
+  "environments": {
+    "default": {
+      "network": "development",
+      "appName": "app.aragonpm.eth"
+    }
+  },
   "path": "contracts/CounterApp.sol"
 }
