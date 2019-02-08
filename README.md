@@ -10,7 +10,7 @@ This boilerplate also includes a fully working example app, complete with a back
 ## Usage
 
 ```sh
-aragon init app.aragonpm.test react
+aragon init app.aragonpm.eth react
 ```
 
 ## Running your app
