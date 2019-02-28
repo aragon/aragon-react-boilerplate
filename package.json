@@ -27,7 +27,7 @@
     "test": "aragon contracts test",
     "compile": "aragon contracts compile",
     "sync-assets": "copy-aragon-ui-assets -n aragon-ui ./dist",
-    "build:app": "parcel build app/index.html -d dist/ --public-url '.' --no-cache",
+    "build:app": "parcel build app/index.html -d dist/ --public-url \".\" --no-cache",
     "build:script": "parcel build app/script.js -d dist/ --no-cache",
     "build": "npm run sync-assets && npm run build:app && npm run build:script",
     "publish:patch": "aragon apm publish patch",
