@@ -3,33 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "@aragon/client": "^1.1.0",
-    "@aragon/os": "^4.0.1",
-    "@aragon/ui": "^0.16.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "styled-components": "^3.4.10"
+    "@aragon/os": "^4.0.1"
   },
   "devDependencies": {
-    "@aragon/cli": "^5.4.0",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.2.3",
-    "babel-plugin-styled-components": "^1.10.0",
-    "parcel-bundler": "^1.11.0"
+    "@aragon/cli": "^5.4.0"
   },
   "scripts": {
     "start": "npm run start:aragon:ipfs",
     "start:aragon:ipfs": "aragon run",
     "start:aragon:http": "aragon run --http localhost:8001 --http-served-from ./dist",
-    "start:app": "npm run sync-assets && npm run build:script -- --no-minify && parcel serve app/index.html -p 8001 --out-dir dist/ --no-cache",
+    "start:app": "npm start --prefix ./app",
     "test": "aragon contracts test",
     "compile": "aragon contracts compile",
-    "sync-assets": "copy-aragon-ui-assets -n aragon-ui ./dist",
-    "build:app": "parcel build app/index.html -d dist/ --public-url \".\" --no-cache",
-    "build:script": "parcel build app/script.js -d dist/ --no-cache",
-    "build": "npm run sync-assets && npm run build:app && npm run build:script",
+    "build": "npm run build --prefix ./app",
     "publish:patch": "aragon apm publish patch",
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
