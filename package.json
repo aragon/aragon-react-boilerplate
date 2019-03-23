@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "@aragon/client": "^1.1.0",
-    "@aragon/os": "^4.0.1",
+    "@aragon/apps-shared-minime": "^1.0.0",
+    "@aragon/apps-token-manager": "2.0.0",
+    "@aragon/apps-voting": "2.0.0",
+    "@aragon/os": "4.0.1",
+    "@aragon/api": "^1.0.0-beta.1",
     "@aragon/ui": "^0.16.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
@@ -23,6 +26,8 @@
     "start": "npm run start:aragon:ipfs",
     "start:aragon:ipfs": "aragon run",
     "start:aragon:http": "aragon run --http localhost:8001 --http-served-from ./dist",
+    "start:aragon:ipfs:template": "npm run start:aragon:ipfs -- --template Template --template-init @ARAGON_ENS",
+    "start:aragon:http:template": "npm run start:aragon:http -- --template Template --template-init @ARAGON_ENS",
     "start:app": "npm run sync-assets && npm run build:script -- --no-minify && parcel serve app/index.html -p 8001 --out-dir dist/ --no-cache",
     "test": "aragon contracts test",
     "compile": "aragon contracts compile",
@@ -34,6 +39,5 @@
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
     "versions": "aragon apm versions"
-  },
-  "keywords": []
+  }
 }
