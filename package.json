@@ -9,13 +9,14 @@
     "@aragon/cli": "^5.4.0"
   },
   "scripts": {
+    "prepare": "cd app && npm install && cd ..",
     "start": "npm run start:aragon:ipfs",
     "start:aragon:ipfs": "aragon run",
     "start:aragon:http": "aragon run --http localhost:8001 --http-served-from ./dist",
-    "start:app": "npm start --prefix ./app",
+    "start:app": "cd app && npm start && cd ..",
     "test": "aragon contracts test",
     "compile": "aragon contracts compile",
-    "build": "npm run build --prefix ./app",
+    "build": "cd app && npm run build && cd ..",
     "publish:patch": "aragon apm publish patch",
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
