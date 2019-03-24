@@ -17,7 +17,7 @@ npx create-aragon-app <app-name> react
 
 ## Make the template work with your app
 
-- In order for the template to work properly, it needs to know what the name of your app is. Replace `<app-name>` in [this line](https://github.com/aragon/aragon-react-boilerplates/blob/contracts/Template.sol#L68) with the name of your app in the `arapp.json` file (e.g. `app` for `app.aragonpm.eth`)
+- In order for the template to work properly, it needs to know what the name of your app is. Replace `<app-name>` in [this line](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol#L68) with the name of your app in the `arapp.json` file (e.g. `app` for `app.aragonpm.eth`)
 
 - Edit the roles defined in the template to configure your DAO as you want!
 
@@ -47,10 +47,10 @@ Running your app using IPFS will mimic the production environment that will be u
 
 ### npm Scripts
 
-- **start** or **start:aragon:ipfs**: Runs your app inside a DAO served from IPFS
-- **start:aragon:http**: Runs your app inside a DAO served with HTTP (hot reloading)
-- **start:aragon:ipfs:template**: Creates a DAO with the Template and serves the app from IPFS
-- **start:aragon:http:template**: Creates a DAO with the Template and serves the app with HTTP (hot reloading)
+- **start** or **start:ipfs**: Runs your app inside a DAO served from IPFS
+- **start:http**: Runs your app inside a DAO served with HTTP (hot reloading)
+- **start:ipfs:template**: Creates a DAO with the Template and serves the app from IPFS
+- **start:http:template**: Creates a DAO with the Template and serves the app with HTTP (hot reloading)
 - **start:app**: Starts a development server for your app
 - **compile**: Compile the smart contracts
 - **build**: Builds the front-end and background script
@@ -73,7 +73,7 @@ Running your app using IPFS will mimic the production environment that will be u
 
 ### Publish
 
-You can publish you app on [aragonPM](https://hack.aragon.org/docs/apm). View how to do it our [publish guide](https://hack.aragon.org/docs/guides-publish)
+You can publish you app on [aragonPM](https://hack.aragon.org/docs/apm). See how in our [publish guide](https://hack.aragon.org/docs/guides-publish).
 
 ### Using a different Ethereum account
 
