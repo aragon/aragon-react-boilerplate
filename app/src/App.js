@@ -3,15 +3,8 @@ import { useAragonApi } from '@aragon/api-react'
 import { Main, Button } from '@aragon/ui'
 import styled from 'styled-components'
 
-const appStateReducer = state => {
-  if (state === null) {
-    return { count: 0, syncing: true }
-  }
-  return state
-}
-
 function App() {
-  const { api, appState } = useAragonApi(appStateReducer)
+  const { api, appState } = useAragonApi()
   const { count, syncing } = appState
   return (
     <Main>
