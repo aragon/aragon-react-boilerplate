@@ -35,7 +35,7 @@ Running your app using HTTP will allow for a faster development process of your 
 
 - First start your app's development server running `npm run start:app`, and keep that process running. By default it will rebuild the app and reload the server when changes to the source are made.
 
-- After that, you can run `npm run start:aragon:http` or `npm run start:aragon:http:template` which will compile your app's contracts, publish the app locally and create a DAO. You will need to stop it and run it again after making changes to your smart contracts.
+- After that, you can run `npm run start:aragon:http` or `npm run start:aragon:http:template` which will compile your app's contracts, publish the app locally and create a DAO with the template. You will need to stop it and run it again after making changes to your smart contracts.
 
 Changes to the app's background script (`app/script.js`) cannot be hot-reloaded, after making changes to the script, you will need to either restart the development server (`npm run start:app`) or rebuild the script `npm run build:script`.
 
@@ -77,14 +77,14 @@ You can publish you app on [aragonPM](https://hack.aragon.org/docs/apm). See how
 
 ### Using a different Ethereum account
 
-You can use a different account to interact with you app. [Check the documentatio](https://hack.aragon.org/docs/guides-faq#set-a-private-key).
+You can use a different account to interact with you app. [Check the documentation](https://hack.aragon.org/docs/guides-faq#set-a-private-key).
 
 ### Propagate content
 
-You can propagate the content of your app on IPFS. Learn more in our [troubleshooting guide](https://hack.aragon.org/docs/guides-faq#propagating-your-content-hash-through-ipfs). Or use the new `ipfs propagate` command:
+You can propagate the content of your app on IPFS. Learn more in our [troubleshooting guide](https://hack.aragon.org/docs/guides-faq#propagating-your-content-hash-through-ipfs) or use the `aragon ipfs propagate` command:
 
 ```
 npx aragon ipfs propagate <cid>
 ```
 
-Where `cid` is your content id hash.
+Where `cid` is your content id hash (this will be displayed after publishing).
