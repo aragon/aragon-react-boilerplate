@@ -22,20 +22,20 @@ import "@aragon/apps-shared-minime/contracts/MiniMeToken.sol";
 
 import "./CounterApp.sol";
 
-contract KitBase is APMNamehash {
+contract TemplateBase is APMNamehash {
     ENS public ens;
     DAOFactory public fac;
 
     event DeployInstance(address dao);
     event InstalledApp(address appProxy, bytes32 appId);
 
-    function KitBase(DAOFactory _fac, ENS _ens) {
+    function TemplateBase(DAOFactory _fac, ENS _ens) {
         ens = _ens;
 
         // If no factory is passed, get it from on-chain bare-kit
         if (address(_fac) == address(0)) {
             bytes32 bareKit = apmNamehash("bare-kit");
-            fac = KitBase(latestVersionAppBase(bareKit)).fac();
+            fac = TemplateBase(latestVersionAppBase(bareKit)).fac();
         } else {
             fac = _fac;
         }
@@ -49,13 +49,13 @@ contract KitBase is APMNamehash {
     }
 }
 
-contract Kit is KitBase {
+contract Template is TemplateBase {
     MiniMeTokenFactory tokenFactory;
 
     uint64 constant PCT = 10 ** 16;
     address constant ANY_ENTITY = address(-1);
 
-    function Kit(ENS ens) KitBase(DAOFactory(0), ens) {
+    function Template(ENS ens) TemplateBase(DAOFactory(0), ens) {
         tokenFactory = new MiniMeTokenFactory();
     }
 
@@ -65,7 +65,12 @@ contract Kit is KitBase {
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
 
         address root = msg.sender;
+
+        // PLACE WHERE YOU SHOULD CHANGE YOUR APP NAME 
+        // --- 
         bytes32 appId = apmNamehash("app");
+        // --- 
+
         bytes32 votingAppId = apmNamehash("voting");
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
 

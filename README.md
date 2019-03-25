@@ -1,11 +1,11 @@
 # Aragon React Boilerplate
 
-> 🕵️ [Find more boilerplates using GitHub](https://github.com/search?q=topic:aragon-boilerplate) | 
+> 🕵️ [Find more boilerplates using GitHub](https://github.com/search?q=topic:aragon-boilerplate) |
 > ✨ [Official boilerplates](https://github.com/search?q=topic:aragon-boilerplate+org:aragon)
 
 React boilerplate for Aragon applications.
 
-This boilerplate includes a fully working example app, complete with a background worker and a front-end in React (with Aragon UI). Also comes with a DAO Template which will allow for using your app to interact with other Aragon apps like the Voting app. You can read more about DAO Template [here](https://github.com/aragon/hack/blob/master/docs/template-intro.md).
+This boilerplate includes a fully working example app, complete with a background worker and a front-end in React (with Aragon UI). Also comes with a DAO Template which will allow for using your app to interact with other Aragon apps like the Voting app. You can read more about DAO Template [here](https://hack.aragon.org/docs/templates-intro).
 
 ## Usage
 
@@ -35,13 +35,13 @@ Running your app using HTTP will allow for a faster development process of your 
 
 - First start your app's development server running `npm run start:app`, and keep that process running. By default it will rebuild the app and reload the server when changes to the source are made.
 
-- After that, you can run `npm run start:aragon:http` or `npm run start:aragon:http:template` which will compile your app's contracts, publish the app locally and create a DAO. You will need to stop it and run it again after making changes to your smart contracts.
+- After that, you can run `npm run start:http` or `npm run start:http:template` which will compile your app's contracts, publish the app locally and create a DAO. You will need to stop it and run it again after making changes to your smart contracts.
 
 Changes to the app's background script (`app/script.js`) cannot be hot-reloaded, after making changes to the script, you will need to either restart the development server (`npm run start:app`) or rebuild the script `npm run build:script`.
 
 ### Using IPFS
 
-Running your app using IPFS will mimic the production environment that will be used for running your app. `npm run start:aragon:ipfs` will run your app using IPFS. Whenever a change is made to any file in your front-end, a new version of the app needs to be published, so the command needs to be restarted.
+Running your app using IPFS will mimic the production environment that will be used for running your app. `npm run start:ipfs` will run your app using IPFS. Whenever a change is made to any file in your front-end, a new version of the app needs to be published, so the command needs to be restarted.
 
 ## What's in this boilerplate?
 
@@ -49,8 +49,8 @@ Running your app using IPFS will mimic the production environment that will be u
 
 - **start** or **start:ipfs**: Runs your app inside a DAO served from IPFS
 - **start:http**: Runs your app inside a DAO served with HTTP (hot reloading)
-- **start:ipfs:template**: Creates a DAO with the Template and serves the app from IPFS
-- **start:http:template**: Creates a DAO with the Template and serves the app with HTTP (hot reloading)
+- **start:ipfs:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app from IPFS
+- **start:http:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app with HTTP (hot reloading)
 - **start:app**: Starts a development server for your app
 - **compile**: Compile the smart contracts
 - **build**: Builds the front-end and background script
@@ -68,12 +68,14 @@ Running your app using IPFS will mimic the production environment that will be u
 - [**@aragon/api**](https://github.com/aragon/aragon.js/tree/master/packages/aragon-api): Wrapper for Aragon application RPC
 - [**@aragon/ui**](https://github.com/aragon/aragon-ui): Aragon UI components (in React)
 
-
 ## What you can do with this boilerplate?
 
 ### Publish
 
 You can publish you app on [aragonPM](https://hack.aragon.org/docs/apm). See how in our [publish guide](https://hack.aragon.org/docs/guides-publish).
+
+> **Note**<br>
+> The [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) will not be published.
 
 ### Using a different Ethereum account
 
