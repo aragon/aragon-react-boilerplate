@@ -51,11 +51,10 @@ Running your app using IPFS will mimic the production environment that will be u
 - **start:http**: Runs your app inside a DAO served with HTTP (hot reloading)
 - **start:ipfs:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app from IPFS
 - **start:http:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app with HTTP (hot reloading)
+- **prepare**: Install dependencies of the app
 - **start:app**: Starts a development server for your app
 - **compile**: Compile the smart contracts
 - **build**: Builds the front-end and background script
-- **build:app**: Builds the front-end
-- **build:script**: Builds the background script
 - **test**: Runs tests for the contracts
 - **publish:patch**: Release a patch version to aragonPM (only frontend/content changes allowed)
 - **publish:minor**: Release a minor version to aragonPM (only frontend/content changes allowed)
