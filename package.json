@@ -11,12 +11,7 @@
   "devDependencies": {
     "@aragon/cli": "^5.4.0",
     "@aragon/test-helpers": "^1.0.1",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.2.3",
     "babel-eslint": "^10.0.1",
-    "babel-plugin-styled-components": "^1.10.0",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-config-standard": "^12.0.0",
@@ -28,10 +23,10 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-standard": "^4.0.0",
+    "ethlint": "^1.2.3",
     "parcel-bundler": "^1.11.0",
     "prettier": "^1.16.4",
-    "solidity-coverage": "^0.5.11",
-    "solium": "^1.2.3"
+    "solidity-coverage": "^0.5.11"
   },
   "scripts": {
     "start": "npm run start:ipfs",
@@ -48,8 +43,8 @@
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
     "versions": "aragon apm versions",
-    "lint": "eslint . && solium --dir ./contracts",
-    "lint:fix": "eslint . --fix && solium --dir ./contracts --fix",
+    "lint": "eslint app test; solium --dir ./contracts",
+    "lint:fix": "eslint app test --fix; solium --dir ./contracts --fix",
     "coverage": "SOLIDITY_COVERAGE=true npm run ganache-cli:test",
     "ganache-cli:test": "./node_modules/@aragon/test-helpers/ganache-cli.sh"
   }
