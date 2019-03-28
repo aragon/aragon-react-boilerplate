@@ -71,7 +71,7 @@ contract('CounterApp', accounts => {
 
   it('should be incremented', async () => {
     app.initialize()
-    await app.increment(1)
+    await app.increment(1, { from: holder })
     assert.equal(await app.value(), 1)
   })
 
