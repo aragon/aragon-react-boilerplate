@@ -3,6 +3,7 @@ pragma solidity ^0.4.24;
 import "@aragon/os/contracts/apps/AragonApp.sol";
 import "@aragon/os/contracts/lib/math/SafeMath.sol";
 
+
 contract CounterApp is AragonApp {
     using SafeMath for uint256;
 
@@ -17,15 +18,11 @@ contract CounterApp is AragonApp {
     bytes32 constant public INCREMENT_ROLE = keccak256("INCREMENT_ROLE");
     bytes32 constant public DECREMENT_ROLE = keccak256("DECREMENT_ROLE");
 
-    function initialize() onlyInit public {
-        initialized();
-    }
-
     /**
      * @notice Increment the counter by `step`
      * @param step Amount to increment by
      */
-    function increment(uint256 step) auth(INCREMENT_ROLE) external {
+    function increment(uint256 step) external auth(INCREMENT_ROLE) {
         value = value.add(step);
         emit Increment(msg.sender, step);
     }
@@ -34,8 +31,12 @@ contract CounterApp is AragonApp {
      * @notice Decrement the counter by `step`
      * @param step Amount to decrement by
      */
-    function decrement(uint256 step) auth(DECREMENT_ROLE) external {
+    function decrement(uint256 step) external auth(DECREMENT_ROLE) {
         value = value.sub(step);
         emit Decrement(msg.sender, step);
+    }
+
+    function initialize() public onlyInit {
+        initialized();
     }
 }
