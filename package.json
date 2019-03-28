@@ -42,8 +42,8 @@
     "publish:minor": "aragon apm publish minor",
     "publish:major": "aragon apm publish major",
     "versions": "aragon apm versions",
-    "lint": "eslint app test; solium --dir ./contracts",
-    "lint:fix": "eslint app test --fix; solium --dir ./contracts --fix",
+    "lint": "eslint .; solium --dir ./contracts",
+    "lint:fix": "eslint . --fix; solium --dir ./contracts --fix",
     "coverage": "SOLIDITY_COVERAGE=true npm run ganache-cli:test",
     "ganache-cli:test": "./node_modules/@aragon/test-helpers/ganache-cli.sh"
   }

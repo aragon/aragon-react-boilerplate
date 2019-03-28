@@ -3,3 +3,4 @@ app/node_modules
 build
 .cache
 dist
+coverage
