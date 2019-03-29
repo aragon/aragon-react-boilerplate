@@ -44,7 +44,6 @@
     "versions": "aragon apm versions",
     "lint": "eslint .; solium --dir ./contracts",
     "lint:fix": "eslint . --fix; solium --dir ./contracts --fix",
-    "coverage": "SOLIDITY_COVERAGE=true npm run ganache-cli:test",
-    "ganache-cli:test": "./node_modules/@aragon/test-helpers/ganache-cli.sh"
+    "coverage": "SOLIDITY_COVERAGE=true ./node_modules/@aragon/test-helpers/ganache-cli.sh"
   }
 }

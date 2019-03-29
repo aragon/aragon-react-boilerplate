@@ -18,6 +18,10 @@ contract CounterApp is AragonApp {
     bytes32 constant public INCREMENT_ROLE = keccak256("INCREMENT_ROLE");
     bytes32 constant public DECREMENT_ROLE = keccak256("DECREMENT_ROLE");
 
+    function initialize() public onlyInit {
+        initialized();
+    }
+
     /**
      * @notice Increment the counter by `step`
      * @param step Amount to increment by
@@ -34,9 +38,5 @@ contract CounterApp is AragonApp {
     function decrement(uint256 step) external auth(DECREMENT_ROLE) {
         value = value.sub(step);
         emit Decrement(msg.sender, step);
-    }
-
-    function initialize() public onlyInit {
-        initialized();
     }
 }

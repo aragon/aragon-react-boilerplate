@@ -22,6 +22,14 @@
     "pragma-on-top": ["error"],
     "security/enforce-explicit-visibility": ["error"],
     "consequent": 0,
-    "error-reason": ["warning"]
+    "error-reason": ["warning"],
+    "function-order": [
+      "error",
+      {
+        "ignore": {
+          "functions": ["initialize"]
+        }
+      }
+    ]
   }
 }
