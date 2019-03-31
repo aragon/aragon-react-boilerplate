@@ -13,14 +13,14 @@ const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
 
 const getContract = name => artifacts.require(name)
 
-const ANY_ADDR = '0xffffffffffffffffffffffffffffffffffffffff'
+const ANY_ADDRESS = '0xffffffffffffffffffffffffffffffffffffffff'
 
 contract('CounterApp', accounts => {
   let APP_MANAGER_ROLE, INCREMENT_ROLE, DECREMENT_ROLE
   let daoFact, appBase, app
 
-  const root = accounts[0]
-  const holder = accounts[1]
+  const firstAccount = accounts[0]
+  const secondAccount = accounts[1]
 
   before(async () => {
     const kernelBase = await getContract('Kernel').new(true) // petrify immediately
@@ -40,38 +40,57 @@ contract('CounterApp', accounts => {
   })
 
   beforeEach(async () => {
-    const r = await daoFact.newDAO(root)
+    const daoReceipt = await daoFact.newDAO(firstAccount)
     const dao = Kernel.at(
-      r.logs.filter(l => l.event === 'DeployDAO')[0].args.dao
+      daoReceipt.logs.filter(l => l.event === 'DeployDAO')[0].args.dao
     )
     const acl = ACL.at(await dao.acl())
 
-    await acl.createPermission(root, dao.address, APP_MANAGER_ROLE, root, {
-      from: root,
-    })
+    await acl.createPermission(
+      firstAccount,
+      dao.address,
+      APP_MANAGER_ROLE,
+      firstAccount,
+      {
+        from: firstAccount,
+      }
+    )
 
     const receipt = await dao.newAppInstance(
       '0x1234',
       appBase.address,
       '0x',
       false,
-      { from: root }
+      { from: firstAccount }
     )
+
     app = CounterApp.at(
       receipt.logs.filter(l => l.event === 'NewAppProxy')[0].args.proxy
     )
 
-    await acl.createPermission(ANY_ADDR, app.address, INCREMENT_ROLE, root, {
-      from: root,
-    })
-    await acl.createPermission(ANY_ADDR, app.address, DECREMENT_ROLE, root, {
-      from: root,
-    })
+    await acl.createPermission(
+      ANY_ADDRESS,
+      app.address,
+      INCREMENT_ROLE,
+      firstAccount,
+      {
+        from: firstAccount,
+      }
+    )
+    await acl.createPermission(
+      ANY_ADDRESS,
+      app.address,
+      DECREMENT_ROLE,
+      firstAccount,
+      {
+        from: firstAccount,
+      }
+    )
   })
 
-  it('should be incremented', async () => {
+  it('should be incremented by any address', async () => {
     app.initialize()
-    await app.increment(1, { from: holder })
+    await app.increment(1, { from: secondAccount })
     assert.equal(await app.value(), 1)
   })
 
