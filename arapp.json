@@ -12,7 +12,7 @@
     }
   ],
   "environments": {
-    "aragon:local": {
+    "default": {
       "network": "development",
       "appName": "app.aragonpm.eth"
     },
