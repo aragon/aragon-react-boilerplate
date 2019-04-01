@@ -22,6 +22,7 @@ import "@aragon/apps-shared-minime/contracts/MiniMeToken.sol";
 
 import "./CounterApp.sol";
 
+
 contract TemplateBase is APMNamehash {
     ENS public ens;
     DAOFactory public fac;
@@ -29,7 +30,7 @@ contract TemplateBase is APMNamehash {
     event DeployInstance(address dao);
     event InstalledApp(address appProxy, bytes32 appId);
 
-    function TemplateBase(DAOFactory _fac, ENS _ens) {
+    constructor(DAOFactory _fac, ENS _ens) public {
         ens = _ens;
 
         // If no factory is passed, get it from on-chain bare-kit
@@ -49,27 +50,28 @@ contract TemplateBase is APMNamehash {
     }
 }
 
+
 contract Template is TemplateBase {
     MiniMeTokenFactory tokenFactory;
 
     uint64 constant PCT = 10 ** 16;
     address constant ANY_ENTITY = address(-1);
 
-    function Template(ENS ens) TemplateBase(DAOFactory(0), ens) {
+    constructor(ENS ens) TemplateBase(DAOFactory(0), ens) public {
         tokenFactory = new MiniMeTokenFactory();
     }
 
-    function newInstance() {
+    function newInstance() public {
         Kernel dao = fac.newDAO(this);
         ACL acl = ACL(dao.acl());
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
 
         address root = msg.sender;
 
-        // PLACE WHERE YOU SHOULD CHANGE YOUR APP NAME 
-        // --- 
+        // PLACE WHERE YOU SHOULD CHANGE YOUR APP NAME
+        // ---
         bytes32 appId = apmNamehash("app");
-        // --- 
+        // ---
 
         bytes32 votingAppId = apmNamehash("voting");
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
@@ -104,6 +106,6 @@ contract Template is TemplateBase {
         acl.revokePermission(this, acl, acl.CREATE_PERMISSIONS_ROLE());
         acl.setPermissionManager(root, acl, acl.CREATE_PERMISSIONS_ROLE());
 
-        DeployInstance(dao);
+        emit DeployInstance(dao);
     }
 }

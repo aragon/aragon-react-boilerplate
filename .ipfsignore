@@ -5,6 +5,7 @@
 .cache
 node_modules
 build
+coverage
 
 # Lock files
 package-lock.json
