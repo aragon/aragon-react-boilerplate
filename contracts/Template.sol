@@ -67,12 +67,7 @@ contract Template is TemplateBase {
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
 
         address root = msg.sender;
-
-        // PLACE WHERE YOU SHOULD CHANGE YOUR APP NAME
-        // ---
-        bytes32 appId = apmNamehash("app");
-        // ---
-
+        bytes32 appId = apmNamehash("placeholder-app-name");
         bytes32 votingAppId = apmNamehash("voting");
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
 
