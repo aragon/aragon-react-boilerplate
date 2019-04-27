@@ -17,8 +17,6 @@ npx create-aragon-app <app-name> react
 
 ## Make the template work with your app
 
-- In order for the template to work properly, it needs to know what the name of your app is. Replace `<app-name>` in [this line](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol#L68) with the name of your app in the `arapp.json` file (e.g. `app` for `app.aragonpm.eth`)
-
 - Edit the roles defined in the template to configure your DAO as you want!
 
 ## Run the template

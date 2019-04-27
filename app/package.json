@@ -1,8 +1,7 @@
 {
-  "name": "app",
+  "name": "placeholder-app-name-frontend",
   "version": "1.0.0",
   "main": "src/index.js",
-  "license": "MIT",
   "dependencies": {
     "@aragon/api": "^1.0.0-beta.1",
     "@aragon/api-react": "^1.0.0-beta.1",
