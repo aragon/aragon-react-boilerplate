@@ -15,6 +15,39 @@ To setup use the command `create-aragon-app`:
 npx create-aragon-app <app-name> react
 ```
 
+## Structure
+
+This boilerplate has the following structure:
+
+```md
+root
+├── app
+├ ├── src
+├ └── package.json
+├── contracts
+├ ├── CounterApp.sol
+├ └── Template.sol
+├── migration
+├── test
+├── arapp.json
+├── manifest.json
+├── truffle.js
+└── package.json
+```
+
+- **app**: Frontend folder. Completely encapsulated, has its own package.json and dependencies.
+  - **src**: Source files.
+  - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Frontend npm configuration file.
+- **contracts**: Smart Constracts folder.
+  - `CounterApp.sol`: Aragon app contract example.
+  - `Template.sol`: [Aragon Template](https://hack.aragon.org/docs/templates-intro) to deploy a fully functional DAO.
+- [**migrations**](https://truffleframework.com/docs/truffle/getting-started/running-migrations): Migrations folder.
+- **test**: Tests folder.
+- [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Includes Aragon-specific metadata for your app.
+- [**manifest.json**](https://hack.aragon.org/docs/cli-global-confg#the-manifestjson-file): Aragon configuration file. Includes web-specific configurations.
+- [**truffle.js**](https://truffleframework.com/docs/truffle/reference/configuration): Truffle configuration file.
+- [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Main npm configuration file.
+
 ## Make the template work with your app
 
 - Edit the roles defined in the template to configure your DAO as you want!
