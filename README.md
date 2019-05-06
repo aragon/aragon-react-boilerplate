@@ -17,7 +17,7 @@ npx create-aragon-app <app-name> react
 
 ## Structure
 
-This boilerplate have the following structure:
+This boilerplate has the following structure:
 
 ```md
 root
@@ -43,8 +43,8 @@ root
   - `Template.sol`: [Aragon Template](https://hack.aragon.org/docs/templates-intro) to deploy a fully functional DAO.
 - [**migrations**](https://truffleframework.com/docs/truffle/getting-started/running-migrations): Migrations folder.
 - **test**: Tests folder.
-- [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Have metadata for your app.
-- [**manifest.json**](https://hack.aragon.org/docs/cli-global-confg#the-manifestjson-file): Aragon configuration file. Have end-user specific configurations.
+- [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Includes Aragon-specific metadata for your app.
+- [**manifest.json**](https://hack.aragon.org/docs/cli-global-confg#the-manifestjson-file): Aragon configuration file. Includes web-specific configurations.
 - [**truffle.js**](https://truffleframework.com/docs/truffle/reference/configuration): Truffle configuration file.
 - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Main npm configuration file.
 
