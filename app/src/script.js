@@ -1,4 +1,5 @@
-import '@babel/polyfill'
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import { of } from 'rxjs'
 import AragonApi from '@aragon/api'
 
