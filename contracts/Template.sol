@@ -78,9 +78,9 @@ contract Template is TemplateBase {
         MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "App token", 0, "APP", true);
         token.changeController(tokenManager);
 
+        // Initialize apps
         app.initialize();
         tokenManager.initialize(token, true, 0);
-        // Initialize apps
         voting.initialize(token, 50 * PCT, 20 * PCT, 1 days);
 
         acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
