@@ -1,5 +1,6 @@
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
-const { deployDAO, getEventFromReceipt } = require('./helper')
+const { getEventArgument } = require('@aragon/test-helpers/events')
+const deployDAO = require('./helpers/deployDAO')
 
 const CounterApp = artifacts.require('CounterApp.sol')
 
@@ -11,12 +12,12 @@ contract('CounterApp', ([_, appManager, user]) => {
   beforeEach('deploy dao and app', async () => {
     const { dao, acl } = await deployDAO(appManager)
 
-    // Deploy the app's "base" contract.
+    // Deploy the app's base contract.
     const appBase = await CounterApp.new()
 
     // Instantiate a proxy for the app, using the base contract as its logic implementation.
     const instanceReceipt = await dao.newAppInstance('0x1234', appBase.address, '0x', false, { from: appManager })
-    app = CounterApp.at(getEventFromReceipt(instanceReceipt, 'NewAppProxy').args.proxy)
+    app = CounterApp.at(getEventArgument(instanceReceipt, 'NewAppProxy', 'proxy'))
 
     // Set up the app's permissions.
     await acl.createPermission(ANY_ADDRESS, app.address, await app.INCREMENT_ROLE(), appManager, { from: appManager, })

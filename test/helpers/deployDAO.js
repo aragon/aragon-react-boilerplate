@@ -3,9 +3,7 @@ const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')
 const EVMScriptRegistryFactory = artifacts.require('@aragon/core/contracts/factory/EVMScriptRegistryFactory')
 const DAOFactory = artifacts.require('@aragon/core/contracts/factory/DAOFactory')
 
-const getEventFromReceipt = (receipt, eventName) => {
-  return receipt.logs.filter(l => l.event === eventName)[0];
-}
+const { getEventArgument } = require('@aragon/test-helpers/events')
 
 const deployDAO = async (appManager) => {
 
@@ -21,7 +19,7 @@ const deployDAO = async (appManager) => {
 
   // Create a DAO instance.
   const daoReceipt = await daoFactory.newDAO(appManager)
-  const dao = Kernel.at(getEventFromReceipt(daoReceipt, 'DeployDAO').args.dao)
+  const dao = Kernel.at(getEventArgument(daoReceipt, 'DeployDAO', 'dao'))
 
   // Grant the appManager address permission to install apps in the DAO.
   const acl = ACL.at(await dao.acl())
@@ -31,7 +29,4 @@ const deployDAO = async (appManager) => {
   return { dao, acl }
 }
 
-module.exports = {
-  getEventFromReceipt,
-  deployDAO
-}
+module.exports = deployDAO
