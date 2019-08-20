@@ -1,103 +1,44 @@
-/* global artifacts contract before beforeEach it assert */
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
+const { deployDAO, getEventFromReceipt } = require('./helper')
 
 const CounterApp = artifacts.require('CounterApp.sol')
-const DAOFactory = artifacts.require(
-  '@aragon/core/contracts/factory/DAOFactory'
-)
-const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/core/contracts/factory/EVMScriptRegistryFactory'
-)
-const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')
-const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
-
-const getContract = name => artifacts.require(name)
 
 const ANY_ADDRESS = '0xffffffffffffffffffffffffffffffffffffffff'
 
-contract('CounterApp', accounts => {
-  let APP_MANAGER_ROLE, INCREMENT_ROLE, DECREMENT_ROLE
-  let daoFact, appBase, app
+contract('CounterApp', ([_, appManager, user]) => {
+  let dao, acl, app
 
-  const firstAccount = accounts[0]
-  const secondAccount = accounts[1]
-
-  before(async () => {
-    const kernelBase = await getContract('Kernel').new(true) // petrify immediately
-    const aclBase = await getContract('ACL').new()
-    const regFact = await EVMScriptRegistryFactory.new()
-    daoFact = await DAOFactory.new(
-      kernelBase.address,
-      aclBase.address,
-      regFact.address
-    )
-    appBase = await CounterApp.new()
-
-    // Setup constants
-    APP_MANAGER_ROLE = await kernelBase.APP_MANAGER_ROLE()
-    INCREMENT_ROLE = await appBase.INCREMENT_ROLE()
-    DECREMENT_ROLE = await appBase.DECREMENT_ROLE()
+  beforeEach('deploy dao', async () => {
+    ({dao, acl} = await deployDAO(appManager))
   })
 
-  beforeEach(async () => {
-    const daoReceipt = await daoFact.newDAO(firstAccount)
-    const dao = Kernel.at(
-      daoReceipt.logs.filter(l => l.event === 'DeployDAO')[0].args.dao
-    )
-    const acl = ACL.at(await dao.acl())
+  beforeEach('deploy and initialize app', async () => {
 
-    await acl.createPermission(
-      firstAccount,
-      dao.address,
-      APP_MANAGER_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
-    )
+    // Deploy the app's logic implementation or "base" contract.
+    const appBase = await CounterApp.new()
 
-    const receipt = await dao.newAppInstance(
-      '0x1234',
-      appBase.address,
-      '0x',
-      false,
-      { from: firstAccount }
-    )
+    // Instantiate a proxy for the app.
+    const instanceReceipt = await dao.newAppInstance('0x1234', appBase.address, '0x', false, { from: appManager })
+    app = CounterApp.at(getEventFromReceipt(instanceReceipt, 'NewAppProxy').args.proxy)
 
-    app = CounterApp.at(
-      receipt.logs.filter(l => l.event === 'NewAppProxy')[0].args.proxy
-    )
+    // Grant app permissions.
+    const INCREMENT_ROLE = await app.INCREMENT_ROLE()
+    const DECREMENT_ROLE = await app.DECREMENT_ROLE()
+    await acl.createPermission(ANY_ADDRESS, app.address, INCREMENT_ROLE, appManager, { from: appManager, })
+    await acl.createPermission(ANY_ADDRESS, app.address, DECREMENT_ROLE, appManager, { from: appManager, })
 
-    await acl.createPermission(
-      ANY_ADDRESS,
-      app.address,
-      INCREMENT_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
-    )
-    await acl.createPermission(
-      ANY_ADDRESS,
-      app.address,
-      DECREMENT_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
-    )
+    await app.initialize()
   })
 
   it('should be incremented by any address', async () => {
-    app.initialize()
-    await app.increment(1, { from: secondAccount })
+    await app.increment(1, { from: user })
     assert.equal(await app.value(), 1)
   })
 
   it('should not be decremented if already 0', async () => {
-    app.initialize()
-    return assertRevert(async () => {
-      return app.decrement(1)
-    })
+    await assertRevert(
+      app.decrement(1),
+      'MATH_SUB_UNDERFLOW'
+    )
   })
 })
