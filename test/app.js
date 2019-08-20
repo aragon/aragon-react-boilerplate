@@ -6,7 +6,7 @@ const CounterApp = artifacts.require('CounterApp.sol')
 
 const ANY_ADDRESS = '0xffffffffffffffffffffffffffffffffffffffff'
 
-contract('CounterApp', ([_, appManager, user]) => {
+contract('CounterApp', ([appManager, user]) => {
   let app
 
   beforeEach('deploy dao and app', async () => {
@@ -16,11 +16,23 @@ contract('CounterApp', ([_, appManager, user]) => {
     const appBase = await CounterApp.new()
 
     // Instantiate a proxy for the app, using the base contract as its logic implementation.
-    const instanceReceipt = await dao.newAppInstance('0x1234', appBase.address, '0x', false, { from: appManager })
+    const instanceReceipt = await dao.newAppInstance(
+      '0x1234',        // appId - Unique identifier for each app installed in the DAO.
+      appBase.address, // appBase - Logic implementation for the proxy.
+      '0x',            // initializePayload - Used to instantiate and initialize the proxy in the same call.
+      false,           // setDefault - Wether the app proxy is the default proxy.
+      { from: appManager }
+    )
     app = CounterApp.at(getEventArgument(instanceReceipt, 'NewAppProxy', 'proxy'))
 
     // Set up the app's permissions.
-    await acl.createPermission(ANY_ADDRESS, app.address, await app.INCREMENT_ROLE(), appManager, { from: appManager, })
+    await acl.createPermission(
+      ANY_ADDRESS,                // entity - who? - The entity or address that will have the permission.
+      app.address,                // app - where? - The app that holds the role involved in this permission.
+      await app.INCREMENT_ROLE(), // role - what? - The particular role that the entity is being assigned to in this permission.
+      appManager,                 // manager - Can grant/revoke further permissions for this role.
+      { from: appManager, }
+    )
     await acl.createPermission(ANY_ADDRESS, app.address, await app.DECREMENT_ROLE(), appManager, { from: appManager, })
 
     await app.initialize()
