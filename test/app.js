@@ -2,6 +2,7 @@
 
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
 const { getEventArgument } = require('@aragon/test-helpers/events')
+const { hash } = require('eth-ens-namehash')
 const deployDAO = require('./helpers/deployDAO')
 
 const CounterApp = artifacts.require('CounterApp.sol')
@@ -19,10 +20,10 @@ contract('CounterApp', ([appManager, user]) => {
 
     // Instantiate a proxy for the app, using the base contract as its logic implementation.
     const instanceReceipt = await dao.newAppInstance(
-      '0x1234', // appId - Unique identifier for each app installed in the DAO.
-      appBase.address, // appBase - Logic implementation for the proxy.
-      '0x', // initializePayload - Used to instantiate and initialize the proxy in the same call.
-      false, // setDefault - Wether the app proxy is the default proxy.
+      hash('counter.aragonpm.test'), // appId - Unique identifier for each app installed in the DAO; can be any bytes32 string in the tests.
+      appBase.address, // appBase - Location of the app's base implementation.
+      '0x', // initializePayload - Used to instantiate and initialize the proxy in the same call (if given a non-empty bytes string).
+      false, // setDefault - Whether the app proxy is the default proxy.
       { from: appManager }
     )
     app = CounterApp.at(
@@ -31,9 +32,9 @@ contract('CounterApp', ([appManager, user]) => {
 
     // Set up the app's permissions.
     await acl.createPermission(
-      ANY_ADDRESS, // entity - who? - The entity or address that will have the permission.
-      app.address, // app - where? - The app that holds the role involved in this permission.
-      await app.INCREMENT_ROLE(), // role - what? - The particular role that the entity is being assigned to in this permission.
+      ANY_ADDRESS, // entity (who?) - The entity or address that will have the permission.
+      app.address, // app (where?) - The app that holds the role involved in this permission.
+      await app.INCREMENT_ROLE(), // role (what?) - The particular role that the entity is being assigned to in this permission.
       appManager, // manager - Can grant/revoke further permissions for this role.
       { from: appManager }
     )
