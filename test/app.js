@@ -1,3 +1,5 @@
+/* global artifacts contract beforeEach it assert */
+
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
 const { getEventArgument } = require('@aragon/test-helpers/events')
 const deployDAO = require('./helpers/deployDAO')
@@ -17,23 +19,31 @@ contract('CounterApp', ([appManager, user]) => {
 
     // Instantiate a proxy for the app, using the base contract as its logic implementation.
     const instanceReceipt = await dao.newAppInstance(
-      '0x1234',        // appId - Unique identifier for each app installed in the DAO.
+      '0x1234', // appId - Unique identifier for each app installed in the DAO.
       appBase.address, // appBase - Logic implementation for the proxy.
-      '0x',            // initializePayload - Used to instantiate and initialize the proxy in the same call.
-      false,           // setDefault - Wether the app proxy is the default proxy.
+      '0x', // initializePayload - Used to instantiate and initialize the proxy in the same call.
+      false, // setDefault - Wether the app proxy is the default proxy.
       { from: appManager }
     )
-    app = CounterApp.at(getEventArgument(instanceReceipt, 'NewAppProxy', 'proxy'))
+    app = CounterApp.at(
+      getEventArgument(instanceReceipt, 'NewAppProxy', 'proxy')
+    )
 
     // Set up the app's permissions.
     await acl.createPermission(
-      ANY_ADDRESS,                // entity - who? - The entity or address that will have the permission.
-      app.address,                // app - where? - The app that holds the role involved in this permission.
+      ANY_ADDRESS, // entity - who? - The entity or address that will have the permission.
+      app.address, // app - where? - The app that holds the role involved in this permission.
       await app.INCREMENT_ROLE(), // role - what? - The particular role that the entity is being assigned to in this permission.
-      appManager,                 // manager - Can grant/revoke further permissions for this role.
-      { from: appManager, }
+      appManager, // manager - Can grant/revoke further permissions for this role.
+      { from: appManager }
     )
-    await acl.createPermission(ANY_ADDRESS, app.address, await app.DECREMENT_ROLE(), appManager, { from: appManager, })
+    await acl.createPermission(
+      ANY_ADDRESS,
+      app.address,
+      await app.DECREMENT_ROLE(),
+      appManager,
+      { from: appManager }
+    )
 
     await app.initialize()
   })
