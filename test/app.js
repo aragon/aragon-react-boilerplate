@@ -1,103 +1,60 @@
-/* global artifacts contract before beforeEach it assert */
+/* global artifacts contract beforeEach it assert */
+
 const { assertRevert } = require('@aragon/test-helpers/assertThrow')
+const { getEventArgument } = require('@aragon/test-helpers/events')
+const { hash } = require('eth-ens-namehash')
+const deployDAO = require('./helpers/deployDAO')
 
 const CounterApp = artifacts.require('CounterApp.sol')
-const DAOFactory = artifacts.require(
-  '@aragon/core/contracts/factory/DAOFactory'
-)
-const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/core/contracts/factory/EVMScriptRegistryFactory'
-)
-const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')
-const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
-
-const getContract = name => artifacts.require(name)
 
 const ANY_ADDRESS = '0xffffffffffffffffffffffffffffffffffffffff'
 
-contract('CounterApp', accounts => {
-  let APP_MANAGER_ROLE, INCREMENT_ROLE, DECREMENT_ROLE
-  let daoFact, appBase, app
+contract('CounterApp', ([appManager, user]) => {
+  let app
 
-  const firstAccount = accounts[0]
-  const secondAccount = accounts[1]
+  beforeEach('deploy dao and app', async () => {
+    const { dao, acl } = await deployDAO(appManager)
 
-  before(async () => {
-    const kernelBase = await getContract('Kernel').new(true) // petrify immediately
-    const aclBase = await getContract('ACL').new()
-    const regFact = await EVMScriptRegistryFactory.new()
-    daoFact = await DAOFactory.new(
-      kernelBase.address,
-      aclBase.address,
-      regFact.address
+    // Deploy the app's base contract.
+    const appBase = await CounterApp.new()
+
+    // Instantiate a proxy for the app, using the base contract as its logic implementation.
+    const instanceReceipt = await dao.newAppInstance(
+      hash('counter.aragonpm.test'), // appId - Unique identifier for each app installed in the DAO; can be any bytes32 string in the tests.
+      appBase.address, // appBase - Location of the app's base implementation.
+      '0x', // initializePayload - Used to instantiate and initialize the proxy in the same call (if given a non-empty bytes string).
+      false, // setDefault - Whether the app proxy is the default proxy.
+      { from: appManager }
     )
-    appBase = await CounterApp.new()
-
-    // Setup constants
-    APP_MANAGER_ROLE = await kernelBase.APP_MANAGER_ROLE()
-    INCREMENT_ROLE = await appBase.INCREMENT_ROLE()
-    DECREMENT_ROLE = await appBase.DECREMENT_ROLE()
-  })
-
-  beforeEach(async () => {
-    const daoReceipt = await daoFact.newDAO(firstAccount)
-    const dao = Kernel.at(
-      daoReceipt.logs.filter(l => l.event === 'DeployDAO')[0].args.dao
-    )
-    const acl = ACL.at(await dao.acl())
-
-    await acl.createPermission(
-      firstAccount,
-      dao.address,
-      APP_MANAGER_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
-    )
-
-    const receipt = await dao.newAppInstance(
-      '0x1234',
-      appBase.address,
-      '0x',
-      false,
-      { from: firstAccount }
-    )
-
     app = CounterApp.at(
-      receipt.logs.filter(l => l.event === 'NewAppProxy')[0].args.proxy
+      getEventArgument(instanceReceipt, 'NewAppProxy', 'proxy')
     )
 
+    // Set up the app's permissions.
     await acl.createPermission(
-      ANY_ADDRESS,
-      app.address,
-      INCREMENT_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
+      ANY_ADDRESS, // entity (who?) - The entity or address that will have the permission.
+      app.address, // app (where?) - The app that holds the role involved in this permission.
+      await app.INCREMENT_ROLE(), // role (what?) - The particular role that the entity is being assigned to in this permission.
+      appManager, // manager - Can grant/revoke further permissions for this role.
+      { from: appManager }
     )
     await acl.createPermission(
       ANY_ADDRESS,
       app.address,
-      DECREMENT_ROLE,
-      firstAccount,
-      {
-        from: firstAccount,
-      }
+      await app.DECREMENT_ROLE(),
+      appManager,
+      { from: appManager }
     )
+
+    await app.initialize()
   })
 
   it('should be incremented by any address', async () => {
-    app.initialize()
-    await app.increment(1, { from: secondAccount })
+    await app.increment(1, { from: user })
     assert.equal(await app.value(), 1)
   })
 
   it('should not be decremented if already 0', async () => {
-    app.initialize()
-    return assertRevert(async () => {
-      return app.decrement(1)
-    })
+    await assertRevert(app.decrement(1), 'MATH_SUB_UNDERFLOW')
   })
 })
