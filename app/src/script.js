@@ -1,38 +1,37 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import { of } from 'rxjs'
-import AragonApi from '@aragon/api'
+import Aragon, { events } from '@aragon/api'
 
-const INITIALIZATION_TRIGGER = Symbol('INITIALIZATION_TRIGGER')
+const app = new Aragon()
 
-const api = new AragonApi()
+app.store(async (state, { event }) => {
+  let nextState = { ...state }
 
-api.store(
-  async (state, event) => {
-    let newState
-
-    switch (event.event) {
-      case INITIALIZATION_TRIGGER:
-        newState = { count: await getValue() }
-        break
-      case 'Increment':
-        newState = { count: await getValue() }
-        break
-      case 'Decrement':
-        newState = { count: await getValue() }
-        break
-      default:
-        newState = state
+  // Initial state
+  if (state == null) {
+    nextState = {
+      count: await getValue(),
     }
+  }
 
-    return newState
-  },
-  [
-    // Always initialize the store with our own home-made event
-    of({ event: INITIALIZATION_TRIGGER }),
-  ]
-)
+  switch (event) {
+    case 'Increment':
+      nextState = { ...nextState, count: await getValue() }
+      break
+    case 'Decrement':
+      nextState = { ...nextState, count: await getValue() }
+      break
+    case events.SYNC_STATUS_SYNCING:
+      nextState = { ...nextState, isSyncing: true }
+      break
+    case events.SYNC_STATUS_SYNCED:
+      nextState = { ...nextState, isSyncing: false }
+      break
+  }
+
+  return nextState
+})
 
 async function getValue() {
-  return parseInt(await api.call('value').toPromise(), 10)
+  return parseInt(await app.call('value').toPromise(), 10)
 }
