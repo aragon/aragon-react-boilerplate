@@ -33,12 +33,6 @@
       "appName": "placeholder-app-name.open.aragonpm.eth",
       "wsRPC": "wss://mainnet.eth.aragon.network/ws",
       "network": "mainnet"
-    },
-    "ropsten": {
-      "registry": "0x6afe2cacee211ea9179992f89dc61ff25c61e923",
-      "appName": "placeholder-app-name.open.aragonpm.eth",
-      "wsRPC": "wss://ropsten.infura.io/ws",
-      "network": "ropsten"
     }
   },
   "path": "contracts/CounterApp.sol"
