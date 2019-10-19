@@ -1,1 +1,1 @@
-require('@aragon/truffle-config-v5/truffle-config')
+module.exports = require('@aragon/truffle-config-v5/truffle-config')
