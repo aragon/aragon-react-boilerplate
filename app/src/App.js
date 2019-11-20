@@ -15,9 +15,12 @@ import {
 import styled from 'styled-components'
 
 function App() {
-  const { api, appState } = useAragonApi()
+  const { api, appState, path, requestPath } = useAragonApi()
   const { count, isSyncing } = appState
-  console.log(count, isSyncing)
+
+  const pathParts = path.match(/^\/tab\/([0-9]+)/)
+  const pageIndex = pathParts ? parseInt(pathParts[1], 10) - 1 : 0
+
   return (
     <Main>
       {isSyncing && <SyncIndicator />}
@@ -42,6 +45,11 @@ function App() {
             />
           </>
         }
+      />
+      <Tabs
+        items={['Tab 1', 'Tab 2']}
+        selected={pageIndex}
+        onChange={index => requestPath(`/tab/${index + 1}`)}
       />
       <Box
         css={`
