@@ -1,6 +1,17 @@
 import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
-import { Main, Button } from '@aragon/ui'
+import {
+  Box,
+  Button,
+  GU,
+  Header,
+  IconMinus,
+  IconPlus,
+  Main,
+  SyncIndicator,
+  Tabs,
+  textStyle,
+} from '@aragon/ui'
 import styled from 'styled-components'
 
 function App() {
@@ -9,45 +20,42 @@ function App() {
   console.log(count, isSyncing)
   return (
     <Main>
-      <BaseLayout>
-        {isSyncing && <Syncing />}
-        <Count>Count: {count}</Count>
-        <Buttons>
-          <Button mode="secondary" onClick={() => api.decrement(1).toPromise()}>
-            Decrement
-          </Button>
-          <Button mode="secondary" onClick={() => api.increment(1).toPromise()}>
-            Increment
-          </Button>
-        </Buttons>
-      </BaseLayout>
+      {isSyncing && <SyncIndicator />}
+      <Header
+        primary="Counter"
+        secondary={
+          <>
+            <Button
+              display="icon"
+              icon={<IconMinus />}
+              label="Decrement"
+              onClick={() => api.decrement(1).toPromise()}
+            />
+            <Button
+              display="icon"
+              icon={<IconPlus />}
+              label="Increment"
+              onClick={() => api.increment(1).toPromise()}
+              css={`
+                margin-left: ${2 * GU}px;
+              `}
+            />
+          </>
+        }
+      />
+      <Box
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: ${50 * GU}px;
+          ${textStyle('title3')};
+        `}
+      >
+        Count: {count}
+      </Box>
     </Main>
   )
 }
-
-const BaseLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
-`
-
-const Count = styled.h1`
-  font-size: 30px;
-`
-
-const Buttons = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 40px;
-  margin-top: 20px;
-`
-
-const Syncing = styled.div.attrs({ children: 'Syncing…' })`
-  position: absolute;
-  top: 15px;
-  right: 20px;
-`
 
 export default App
