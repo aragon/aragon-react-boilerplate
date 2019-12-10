@@ -5,17 +5,18 @@ import styled from 'styled-components'
 
 function App() {
   const { api, appState } = useAragonApi()
-  const { count, syncing } = appState
+  const { count, isSyncing } = appState
+  console.log(count, isSyncing)
   return (
     <Main>
       <BaseLayout>
-        {syncing && <Syncing />}
+        {isSyncing && <Syncing />}
         <Count>Count: {count}</Count>
         <Buttons>
-          <Button mode="secondary" onClick={() => api.decrement(1)}>
+          <Button mode="strong" onClick={() => api.decrement(1).toPromise()}>
             Decrement
           </Button>
-          <Button mode="secondary" onClick={() => api.increment(1)}>
+          <Button mode="strong" onClick={() => api.increment(1).toPromise()}>
             Increment
           </Button>
         </Buttons>
