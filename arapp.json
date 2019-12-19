@@ -13,7 +13,7 @@
   ],
   "environments": {
     "default": {
-      "network": "development",
+      "network": "rpc",
       "appName": "placeholder-app-name.open.aragonpm.eth"
     },
     "rinkeby": {

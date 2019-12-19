@@ -1,106 +1,167 @@
-/*
- * SPDX-License-Identitifer:    GPL-3.0-or-later
- *
- * This file requires contract dependencies which are licensed as
- * GPL-3.0-or-later, forcing it to also be licensed as such.
- *
- * This is the only file in your project that requires this license and
- * you are free to choose a different license for the rest of the project.
- */
-
 pragma solidity 0.4.24;
 
-import "@aragon/os/contracts/factory/DAOFactory.sol";
-import "@aragon/os/contracts/apm/Repo.sol";
-import "@aragon/os/contracts/lib/ens/ENS.sol";
-import "@aragon/os/contracts/lib/ens/PublicResolver.sol";
-import "@aragon/os/contracts/apm/APMNamehash.sol";
-
-import "@aragon/apps-voting/contracts/Voting.sol";
-import "@aragon/apps-token-manager/contracts/TokenManager.sol";
-import "@aragon/apps-shared-minime/contracts/MiniMeToken.sol";
+import "@aragon/templates-shared/contracts/TokenCache.sol";
+import "@aragon/templates-shared/contracts/BaseTemplate.sol";
 
 import "./CounterApp.sol";
 
 
-contract TemplateBase is APMNamehash {
-    ENS public ens;
-    DAOFactory public fac;
+contract Template is BaseTemplate, TokenCache {
+    string constant private ERROR_EMPTY_HOLDERS = "TEMPLATE_EMPTY_HOLDERS";
+    string constant private ERROR_BAD_HOLDERS_STAKES_LEN = "TEMPLATE_BAD_HOLDERS_STAKES_LEN";
+    string constant private ERROR_BAD_VOTE_SETTINGS = "TEMPLATE_BAD_VOTE_SETTINGS";
 
-    event DeployInstance(address dao);
-    event InstalledApp(address appProxy, bytes32 appId);
+    address constant private ANY_ENTITY = address(-1);
+    bool constant private TOKEN_TRANSFERABLE = true;
+    uint8 constant private TOKEN_DECIMALS = uint8(18);
+    uint256 constant private TOKEN_MAX_PER_ACCOUNT = uint256(0);
 
-    constructor(DAOFactory _fac, ENS _ens) public {
-        ens = _ens;
-
-        // If no factory is passed, get it from on-chain bare-kit
-        if (address(_fac) == address(0)) {
-            bytes32 bareKit = apmNamehash("bare-kit");
-            fac = TemplateBase(latestVersionAppBase(bareKit)).fac();
-        } else {
-            fac = _fac;
-        }
+    constructor (
+        DAOFactory _daoFactory,
+        ENS _ens,
+        MiniMeTokenFactory _miniMeFactory,
+        IFIFSResolvingRegistrar _aragonID
+    )
+        BaseTemplate(_daoFactory, _ens, _miniMeFactory, _aragonID)
+        public
+    {
+        _ensureAragonIdIsValid(_aragonID);
+        _ensureMiniMeFactoryIsValid(_miniMeFactory);
     }
 
-    function latestVersionAppBase(bytes32 appId) public view returns (address base) {
-        Repo repo = Repo(PublicResolver(ens.resolver(appId)).addr(appId));
-        (,base,) = repo.getLatest();
-
-        return base;
+    /**
+    * @dev Create a new MiniMe token and deploy a Template DAO.
+    * @param _tokenName String with the name for the token used by share holders in the organization
+    * @param _tokenSymbol String with the symbol for the token used by share holders in the organization
+    * @param _holders Array of token holder addresses
+    * @param _stakes Array of token stakes for holders (token has 18 decimals, multiply token amount `* 10^18`)
+    * @param _votingSettings Array of [supportRequired, minAcceptanceQuorum, voteDuration] to set up the voting app of the organization
+    */
+    function newTokenAndInstance(
+        string _tokenName,
+        string _tokenSymbol,
+        address[] _holders,
+        uint256[] _stakes,
+        uint64[3] _votingSettings
+    )
+        external
+    {
+        newToken(_tokenName, _tokenSymbol);
+        newInstance(_holders, _stakes, _votingSettings);
     }
-}
 
-
-contract Template is TemplateBase {
-    MiniMeTokenFactory tokenFactory;
-
-    uint64 constant PCT = 10 ** 16;
-    address constant ANY_ENTITY = address(-1);
-
-    constructor(ENS ens) TemplateBase(DAOFactory(0), ens) public {
-        tokenFactory = new MiniMeTokenFactory();
+    /**
+    * @dev Create a new MiniMe token and cache it for the user
+    * @param _name String with the name for the token used by share holders in the organization
+    * @param _symbol String with the symbol for the token used by share holders in the organization
+    */
+    function newToken(string memory _name, string memory _symbol) public returns (MiniMeToken) {
+        MiniMeToken token = _createToken(_name, _symbol, TOKEN_DECIMALS);
+        _cacheToken(token, msg.sender);
+        return token;
     }
 
-    function newInstance() public {
-        Kernel dao = fac.newDAO(this);
-        ACL acl = ACL(dao.acl());
-        acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
+    /**
+    * @dev Deploy a Template DAO using a previously cached MiniMe token
+    * @param _holders Array of token holder addresses
+    * @param _stakes Array of token stakes for holders (token has 18 decimals, multiply token amount `* 10^18`)
+    * @param _votingSettings Array of [supportRequired, minAcceptanceQuorum, voteDuration] to set up the voting app of the organization
+    */
+    function newInstance(
+        address[] memory _holders,
+        uint256[] memory _stakes,
+        uint64[3] memory _votingSettings
+    )
+        public
+    {
+        _ensureTemplateSettings(_holders, _stakes, _votingSettings);
 
-        address root = msg.sender;
-        bytes32 appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
-        bytes32 votingAppId = apmNamehash("voting");
-        bytes32 tokenManagerAppId = apmNamehash("token-manager");
+        (Kernel dao, ACL acl) = _createDAO();
+        (Voting voting) = _setupBaseApps(dao, acl, _holders, _stakes, _votingSettings);
+        // Setup placeholder-app-name app
+        _setupCustomApp(dao, acl, voting);
+        _transferRootPermissionsFromTemplateAndFinalizeDAO(dao, voting);
+    }
 
-        CounterApp app = CounterApp(dao.newAppInstance(appId, latestVersionAppBase(appId)));
-        Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
-        TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
+    function _setupBaseApps(
+        Kernel _dao,
+        ACL _acl,
+        address[] memory _holders,
+        uint256[] memory _stakes,
+        uint64[3] memory _votingSettings
+    )
+        internal
+        returns (Voting)
+    {
+        MiniMeToken token = _popTokenCache(msg.sender);
+        TokenManager tokenManager = _installTokenManagerApp(_dao, token, TOKEN_TRANSFERABLE, TOKEN_MAX_PER_ACCOUNT);
+        Voting voting = _installVotingApp(_dao, token, _votingSettings);
 
-        MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "App token", 0, "APP", true);
-        token.changeController(tokenManager);
+        _mintTokens(_acl, tokenManager, _holders, _stakes);
+        _setupBasePermissions(_acl, voting, tokenManager);
 
-        // Initialize apps
-        app.initialize();
-        tokenManager.initialize(token, true, 0);
-        voting.initialize(token, 50 * PCT, 20 * PCT, 1 days);
+        return (voting);
+    }
 
-        acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
-        tokenManager.mint(root, 1); // Give one token to root
+    function _setupBasePermissions(
+        ACL _acl,
+        Voting _voting,
+        TokenManager _tokenManager
+    )
+        internal
+    {
+        _createEvmScriptsRegistryPermissions(_acl, _voting, _voting);
+        _createVotingPermissions(_acl, _voting, _voting, _tokenManager, _voting);
+        _createTokenManagerPermissions(_acl, _tokenManager, _voting, _voting);
+    }
 
-        acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
+    // Next we install and create permissions for the placeholder-app-name app
+    //--------------------------------------------------------------//
+    function _setupCustomApp(
+        Kernel _dao,
+        ACL _acl,
+        Voting _voting
+    )
+        internal
+    {
+        CounterApp app = _installCounterApp(_dao);
+        _createCounterAppPermissions(_acl, app, _voting, _voting);
+    }
 
-        acl.createPermission(voting, app, app.INCREMENT_ROLE(), voting);
-        acl.createPermission(ANY_ENTITY, app, app.DECREMENT_ROLE(), root);
-        acl.grantPermission(voting, tokenManager, tokenManager.MINT_ROLE());
+    function _installCounterApp(
+        Kernel _dao
+    )
+        internal returns (CounterApp)
+    {
+        bytes32 _appId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("placeholder-app-name")));
+        bytes memory initializeData = abi.encodeWithSelector(CounterApp(0).initialize.selector);
+        return CounterApp(_installDefaultApp(_dao, _appId, initializeData));
+    }
 
-        // Clean up permissions
-        acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
-        acl.revokePermission(this, dao, dao.APP_MANAGER_ROLE());
-        acl.setPermissionManager(root, dao, dao.APP_MANAGER_ROLE());
+    function _createCounterAppPermissions(
+        ACL _acl,
+        CounterApp _app,
+        address _grantee,
+        address _manager
+    )
+        internal
+    {
+        _acl.createPermission(_grantee, _app, _app.INCREMENT_ROLE(), _manager);
+        _acl.createPermission(ANY_ENTITY, _app, _app.DECREMENT_ROLE(), _manager);
+    }
 
-        acl.grantPermission(root, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.revokePermission(this, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.setPermissionManager(root, acl, acl.CREATE_PERMISSIONS_ROLE());
+    //--------------------------------------------------------------//
 
-        emit DeployInstance(dao);
+    function _ensureTemplateSettings(
+        address[] memory _holders,
+        uint256[] memory _stakes,
+        uint64[3] memory _votingSettings
+    )
+        private
+        pure
+    {
+        require(_holders.length > 0, ERROR_EMPTY_HOLDERS);
+        require(_holders.length == _stakes.length, ERROR_BAD_HOLDERS_STAKES_LEN);
+        require(_votingSettings.length == 3, ERROR_BAD_VOTE_SETTINGS);
     }
 }

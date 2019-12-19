@@ -48,16 +48,6 @@ root
 - [**truffle.js**](https://truffleframework.com/docs/truffle/reference/configuration): Truffle configuration file.
 - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Main npm configuration file.
 
-## Make the template work with your app
-
-- Edit the roles defined in the template to configure your DAO as you want!
-
-## Run the template
-
-```sh
-npx aragon run --template Template --template-init @ARAGON_ENS
-```
-
 ## Running your app
 
 ### Using HTTP
@@ -68,32 +58,42 @@ Running your app using HTTP will allow for a faster development process of your 
 
 - After that, you can run `npm run start:http` or `npm run start:http:template` which will compile your app's contracts, publish the app locally and create a DAO. You will need to stop it and run it again after making changes to your smart contracts.
 
-Changes to the app's background script (`app/script.js`) cannot be hot-reloaded, after making changes to the script, you will need to either restart the development server (`npm run start:app`) or rebuild the script `npm run build:script`.
+Changes to the app's background script (`app/script.js`) cannot be hot-reloaded, after making changes to the script, you will need to either restart the development server (`npm run start:app`) or rebuild the script `npm run build`.
 
 ### Using IPFS
 
 Running your app using IPFS will mimic the production environment that will be used for running your app. `npm run start:ipfs` will run your app using IPFS. Whenever a change is made to any file in your front-end, a new version of the app needs to be published, so the command needs to be restarted.
 
+## Make the template work with your app
+
+- Edit the roles defined in the Template on the `arrap.json` file to configure your DAO as you want!
+
+## Run the template
+
+```sh
+npm run start:ipfs:template
+```
+
 ## What's in this boilerplate?
 
 ### npm Scripts
 
+- **prepare**: Installs dependencies of the front-end
 - **start** or **start:ipfs**: Runs your app inside a DAO served from IPFS
 - **start:http**: Runs your app inside a DAO served with HTTP (hot reloading)
 - **start:ipfs:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app from IPFS
 - **start:http:template**: Creates a DAO with the [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) and serves the app with HTTP (hot reloading)
-- **prepare**: Installs dependencies of the front-end
 - **start:app**: Starts a development server for your app
-- **compile**: Compiles the smart contracts
 - **build**: Builds the front-end and background script
+- **lint**: Checks the app and the contracts for linting errors
+- **lint:fix**: Fixes the lint errors that can be resolved automatically
+- **compile**: Compiles the smart contracts
 - **test**: Runs tests for the contracts
+- **coverage**: Runs the tests for the contracts and creates a report
 - **publish:patch**: Releases a patch version to aragonPM (only frontend/content changes allowed)
 - **publish:minor**: Releases a minor version to aragonPM (only frontend/content changes allowed)
 - **publish:major**: Releases a major version to aragonPM (frontend **and** contract changes)
 - **versions**: Checks the currently installed versions of the app
-- **lint**: Checks the app and the contracts for linting errors
-- **lint:fix**: Fixes the lint errors that can be resolved automatically
-- **coverage**: Runs the tests for the contracts and creates a report
 
 ### Libraries
 
@@ -103,16 +103,16 @@ Running your app using IPFS will mimic the production environment that will be u
 
 ## What you can do with this boilerplate?
 
+### Using a different Ethereum account
+
+You can use a different account to interact with you app. [Check the documentation](https://hack.aragon.org/docs/guides-faq#set-a-private-key).
+
 ### Publish
 
 You can publish you app on [aragonPM](https://hack.aragon.org/docs/apm). See how in our [publish guide](https://hack.aragon.org/docs/guides-publish).
 
 > **Note**<br>
 > The [Template](https://github.com/aragon/aragon-react-boilerplate/blob/master/contracts/Template.sol) will not be published.
-
-### Using a different Ethereum account
-
-You can use a different account to interact with you app. [Check the documentation](https://hack.aragon.org/docs/guides-faq#set-a-private-key).
 
 ### Propagate content
 
