@@ -20,3 +20,5 @@ script:
   - npm run start:ipfs:template
   - npm run start:app
   - npm run start:http
+  - npm run publish:major
+  - npm run versions

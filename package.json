@@ -30,7 +30,7 @@
     "ganache-cli": "^6.0.0",
     "prettier": "^1.18.2",
     "solidity-coverage": "^0.6.2",
-    "truffle": "5.1.4"
+    "truffle": "^5.1.4"
   },
   "scripts": {
     "prepare": "cd app && npm install && cd ..",

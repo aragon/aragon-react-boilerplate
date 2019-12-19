@@ -35,11 +35,15 @@ jobs:
         run: npm install
       - name: Test
         run: npm run test
-      - name: Test aragon run
-        - npm run start
-      - name: Test aragon run with template
-        - npm run start:ipfs:template
+      - name: Test to run the app
+        run: npm run start
+      - name: Test to run the app with a template
+        run: npm run start:ipfs:template
       - name: Start app server
-        - npm run start:app
-      - name: Test aragon run with http
-        - npm run start:http
+        run: npm run start:app
+      - name: Test to run the app with http
+        run: npm run start:http
+      - name: Test to publish the app
+        run: npm run publish:major
+      - name: Test to fetch versions published
+        run: npm run versions
