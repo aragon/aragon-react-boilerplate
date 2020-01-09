@@ -1,53 +1,87 @@
 import React from 'react'
 import { useAragonApi } from '@aragon/api-react'
-import { Main, Button } from '@aragon/ui'
+import {
+  Box,
+  Button,
+  GU,
+  Header,
+  IconMinus,
+  IconPlus,
+  Main,
+  SyncIndicator,
+  Tabs,
+  Text,
+  textStyle,
+} from '@aragon/ui'
 import styled from 'styled-components'
 
 function App() {
-  const { api, appState } = useAragonApi()
+  const { api, appState, path, requestPath } = useAragonApi()
   const { count, isSyncing } = appState
-  console.log(count, isSyncing)
+
+  const pathParts = path.match(/^\/tab\/([0-9]+)/)
+  const pageIndex = Array.isArray(pathParts)
+    ? parseInt(pathParts[1], 10) - 1
+    : 0
+
   return (
     <Main>
-      <BaseLayout>
-        {isSyncing && <Syncing />}
-        <Count>Count: {count}</Count>
+      {isSyncing && <SyncIndicator />}
+      <Header
+        primary="Counter"
+        secondary={
+          <Text
+            css={`
+              ${textStyle('title2')}
+            `}
+          >
+            {count}
+          </Text>
+        }
+      />
+      <Tabs
+        items={['Tab 1', 'Tab 2']}
+        selected={pageIndex}
+        onChange={index => requestPath(`/tab/${index + 1}`)}
+      />
+      <Box
+        css={`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          height: ${50 * GU}px;
+          ${textStyle('title3')};
+        `}
+      >
+        Count: {count}
         <Buttons>
-          <Button mode="strong" onClick={() => api.decrement(1).toPromise()}>
-            Decrement
-          </Button>
-          <Button mode="strong" onClick={() => api.increment(1).toPromise()}>
-            Increment
-          </Button>
+          <Button
+            display="icon"
+            icon={<IconMinus />}
+            label="Decrement"
+            onClick={() => api.decrement(1).toPromise()}
+          />
+          <Button
+            display="icon"
+            icon={<IconPlus />}
+            label="Increment"
+            onClick={() => api.increment(1).toPromise()}
+            css={`
+              margin-left: ${2 * GU}px;
+            `}
+          />
         </Buttons>
-      </BaseLayout>
+      </Box>
     </Main>
   )
 }
-
-const BaseLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  flex-direction: column;
-`
-
-const Count = styled.h1`
-  font-size: 30px;
-`
 
 const Buttons = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 40px;
   margin-top: 20px;
-`
-
-const Syncing = styled.div.attrs({ children: 'Syncing…' })`
-  position: absolute;
-  top: 15px;
-  right: 20px;
 `
 
 export default App
