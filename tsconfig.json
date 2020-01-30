@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "outDir": "dist"
+  },
+  "include": ["./src", "./test"],
+  "files": [
+    "./node_modules/@nomiclabs/buidler-web3/src/type-extensions.d.ts",
+    "./node_modules/@nomiclabs/buidler-truffle5/src/type-extensions.d.ts",
+    "./node_modules/@aragon/buidler-aragon/src/type-extensions.d.ts"
+  ]
+}
