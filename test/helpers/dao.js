@@ -1,5 +1,5 @@
 const { hash } = require('eth-ens-namehash')
-const { getEventArgument } = require('@aragon/test-helpers/events')
+const { getEventArgument } = require('@aragon/contract-test-helpers/events')
 
 const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
 const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')

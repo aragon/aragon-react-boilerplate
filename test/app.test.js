@@ -1,5 +1,5 @@
 const { assert } = require('chai')
-const { assertRevert } = require('@aragon/test-helpers/assertThrow')
+const { assertRevert } = require('@aragon/contract-test-helpers/assertThrow')
 const { newDao, newApp } = require('./helpers/dao')
 const { setOpenPermission } = require('./helpers/permissions')
 
@@ -36,6 +36,6 @@ contract('CounterApp', ([appManager, user]) => {
   })
 
   it('should not be decremented beyond 0', async () => {
-    await assertRevert(app.decrement(INIT_VALUE + 1), 'Returned error:  MATH_SUB_UNDERFLOW')
+    await assertRevert(app.decrement(INIT_VALUE + 1), 'MATH_SUB_UNDERFLOW')
   })
 })
