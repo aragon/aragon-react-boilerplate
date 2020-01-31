@@ -8,6 +8,4 @@ import "@aragon/os/contracts/apm/APMRegistry.sol";
 import "@aragon/os/contracts/apm/Repo.sol";
 
 
-contract Imports {
-    // solium-disable-previous-line no-empty-blocks
-}
+contract Imports {}
