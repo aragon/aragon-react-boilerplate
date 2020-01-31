@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@nomiclabs/buidler": "^1.0.2",
-    "@aragon/buidler-aragon": "^0.0.1-beta.10",
+    "@aragon/buidler-aragon": "^0.0.1-beta.11",
     "@aragon/test-helpers": "^2.0.0"
   }
 }
