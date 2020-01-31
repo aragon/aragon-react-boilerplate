@@ -1,10 +1,10 @@
-import { usePlugin, BuidlerConfig } from '@nomiclabs/buidler/config'
+const { usePlugin } = require('@nomiclabs/buidler/config')
 
 usePlugin('@nomiclabs/buidler-truffle5')
 usePlugin('@nomiclabs/buidler-web3')
 usePlugin('@aragon/buidler-aragon')
 
-const config: BuidlerConfig = {
+module.exports = {
   defaultNetwork: 'localhost',
   networks: {
     localhost: {
@@ -22,8 +22,11 @@ const config: BuidlerConfig = {
     appServePort: 8001,
     clientServePort: 3000,
     appSrcPath: 'app/',
-    appBuildOutputPath: 'dist/'
+    appBuildOutputPath: 'dist/',
+    hooks: {
+      getInitParams: (bre) => {
+        return [42]
+      }
+    }
   }
 }
-
-export default config
