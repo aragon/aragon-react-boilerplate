@@ -1,7 +1,5 @@
 const { usePlugin } = require('@nomiclabs/buidler/config')
 
-usePlugin('@nomiclabs/buidler-truffle5')
-usePlugin('@nomiclabs/buidler-web3')
 usePlugin('@aragon/buidler-aragon')
 
 module.exports = {
