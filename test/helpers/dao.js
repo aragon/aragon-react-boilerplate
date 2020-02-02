@@ -1,13 +1,13 @@
 const { hash } = require('eth-ens-namehash')
 const { getEventArgument } = require('@aragon/contract-test-helpers/events')
 
-const Kernel = artifacts.require('@aragon/core/contracts/kernel/Kernel')
-const ACL = artifacts.require('@aragon/core/contracts/acl/ACL')
+const Kernel = artifacts.require('@aragon/os/contracts/kernel/Kernel')
+const ACL = artifacts.require('@aragon/os/contracts/acl/ACL')
 const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/core/contracts/factory/EVMScriptRegistryFactory'
+  '@aragon/os/contracts/factory/EVMScriptRegistryFactory'
 )
 const DAOFactory = artifacts.require(
-  '@aragon/core/contracts/factory/DAOFactory'
+  '@aragon/os/contracts/factory/DAOFactory'
 )
 
 const newDao = async rootAccount => {
