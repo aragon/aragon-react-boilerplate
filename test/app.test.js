@@ -19,7 +19,7 @@ contract('CounterApp', ([appManager, user]) => {
     const { dao, acl } = await newDao(appManager)
 
     // Instantiate a proxy for the app, using the base contract as its logic implementation.
-    const proxyAddress = await newApp(dao, 'counter', appBase.address, appManager)
+    const proxyAddress = await newApp(dao, 'placeholder-app-name', appBase.address, appManager)
     app = await CounterApp.at(proxyAddress)
 
     // Set up the app's permissions.
