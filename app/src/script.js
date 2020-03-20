@@ -42,7 +42,7 @@ function initializeState() {
   return async cachedState => {
     return {
       ...cachedState,
-      count: 0,
+      count: await getValue(),
     }
   }
 }
