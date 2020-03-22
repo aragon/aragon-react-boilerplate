@@ -2,6 +2,7 @@
 
 > 🕵️ [Find more boilerplates using GitHub](https://github.com/search?q=topic:aragon-boilerplate) |
 > ✨ [Official boilerplates](https://github.com/search?q=topic:aragon-boilerplate+org:aragon)
+
 > ▶️ To use this boilerplate, run `npx create-aragon-app <app-name>`
 
 Buidler + React boilerplate for Aragon applications.
