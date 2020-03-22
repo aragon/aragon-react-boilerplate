@@ -5,47 +5,6 @@
 
 Buidler + React boilerplate for Aragon applications.
 
-This boilerplate includes a fully working example app, complete with a background worker and a front-end in React (with Aragon UI).
-
-_Note: This is an experimental boilerplate for developing Aragon applications. For a more stable boilerplate, please use aragon-react-boilerplate._
-
-## Usage
-
-To setup use the command `create-aragon-app`:
-
-```sh
-npx create-aragon-app <app-name> buidler
-```
-
-## Structure
-
-This boilerplate has the following structure:
-
-```md
-root
-├── app
-├ ├── src
-├ └── package.json
-├── contracts
-├ └── CounterApp.sol
-├── test
-├── arapp.json
-├── manifest.json
-├── buidler.config.js
-└── package.json
-```
-
-- **app**: Frontend folder. Completely encapsulated, has its own package.json and dependencies.
-  - **src**: Source files.
-  - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Frontend npm configuration file.
-- **contracts**: Smart Contracts folder.
-  - `CounterApp.sol`: Aragon app contract example.
-- **test**: Tests folder.
-- [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Includes Aragon-specific metadata for your app.
-- [**manifest.json**](https://hack.aragon.org/docs/cli-global-confg#the-manifestjson-file): Aragon configuration file. Includes web-specific configurations.
-- [**buidler.config.js**](https://buidler.dev/config/): Buidler configuration file.
-- [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Main npm configuration file.
-
 ## Running your app
 
 To run the app in a browser with front end plus back end hot reloading, simply run `npm start`.
@@ -66,7 +25,7 @@ These hooks are called by the Aragon Buidler plugin during the start task's life
 
 Link them to the main buidler config file (buidler.config.js) in the `aragon.hooks` property.
 
-All hooks receive two parameters: 1) A params object that may contain other objects that pertain to the particular hook. 2) A "bre" or BuidlerRuntimeEnvironment object that contains enviroment objects like web3, Truffle artifacts, etc.
+All hooks receive two parameters: 1) A params object that may contain other objects that pertain to the particular hook. 2) A "bre" or BuidlerRuntimeEnvironment object that contains environment objects like web3, Truffle artifacts, etc.
 
 ```
   // Called before a dao is deployed.
@@ -88,7 +47,51 @@ All hooks receive two parameters: 1) A params object that may contain other obje
   }
 ```
 
-For an example on how to use these hooks, please see the [**token-wrapper tests**](https://github.com/aragon/buidler-aragon/blob/master/test/projects/token-wrapper/scripts/hooks.js) within the plugin's test projects.
+If you want an example of how to use these hooks, please see the [**token-wrapper tests**](https://github.com/aragon/buidler-aragon/blob/master/test/projects/token-wrapper/scripts/hooks.js) within the plugin's test projects.
+
+## Next Steps
+
+1. Add code quality tools, like JS and contract linting. Check existing [buidler plugins](https://buidler.dev/plugins/)
+2. Develop your [AragonApp contract](https://hack.aragon.org/docs/aragonos-building)
+3. Develop your [frontend](https://ui.aragon.org/getting-started/)
+4. [Publish!](https://hack.aragon.org/docs/guides-publish)
+
+## Usage
+
+To setup use the command `create-aragon-app`:
+
+```sh
+npx create-aragon-app <app-name>
+```
+
+## Structure
+
+This boilerplate has the following structure:
+
+```md
+root
+├── app
+├ ├── src
+├ └── package.json
+├── contracts
+├ └── CounterApp.sol
+├── test
+├── arapp.json
+├── manifest.json
+├── buidler.config.js
+└── package.json
+```
+
+- **app**: Frontend folder. Completely encapsulated, has it's package.json and dependencies.
+  - **src**: Source files.
+  - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Frontend npm configuration file.
+- **contracts**: Smart Contracts folder.
+  - `CounterApp.sol`: Aragon app contract example.
+- **test**: Tests folder.
+- [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Includes Aragon-specific metadata for your app.
+- [**manifest.json**](https://hack.aragon.org/docs/cli-global-confg#the-manifestjson-file): Aragon configuration file. Includes web-specific configurations.
+- [**buidler.config.js**](https://buidler.dev/config/): Buidler configuration file.
+- [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Main npm configuration file.
 
 ### Libraries
 

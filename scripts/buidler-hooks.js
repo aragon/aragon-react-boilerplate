@@ -8,11 +8,10 @@
  * 2) A "bre" or BuidlerRuntimeEnvironment object that contains enviroment objects like web3, Truffle artifacts, etc.
  *
  * Please see AragonConfigHooks, in the plugin's types for further details on these interfaces.
- * https://github.com/aragon/buidler-aragon/blob/develop/src/types.ts#L22
+ * https://github.com/aragon/buidler-aragon/blob/develop/src/types.ts#L31
  */
 
 module.exports = {
-
   // Called before a dao is deployed.
   preDao: async ({}, { web3, artifacts }) => {},
 
@@ -28,11 +27,9 @@ module.exports = {
   // Called when the start task needs to know the app proxy's init parameters.
   // Must return an array with the proxy's init parameters.
   getInitParams: async ({}, { web3, artifacts }) => {
-    return [
-      42
-    ]
+    return [42];
   },
 
   // Called after the app's proxy is updated with a new implementation.
   postUpdate: async ({ proxy }, { web3, artifacts }) => {}
-}
+};
