@@ -38,7 +38,7 @@ root
 - **app**: Frontend folder. Completely encapsulated, has its own package.json and dependencies.
   - **src**: Source files.
   - [**package.json**](https://docs.npmjs.com/creating-a-package-json-file): Frontend npm configuration file.
-- **contracts**: Smart Constracts folder.
+- **contracts**: Smart Contracts folder.
   - `CounterApp.sol`: Aragon app contract example.
 - **test**: Tests folder.
 - [**arapp.json**](https://hack.aragon.org/docs/cli-global-confg#the-arappjson-file): Aragon configuration file. Includes Aragon-specific metadata for your app.
