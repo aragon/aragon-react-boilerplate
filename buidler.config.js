@@ -1,4 +1,5 @@
 const { usePlugin } = require('@nomiclabs/buidler/config')
+const hooks = require('./scripts/buidler-hooks')
 
 usePlugin('@aragon/buidler-aragon')
 
@@ -28,6 +29,6 @@ module.exports = {
     appSrcPath: 'app/',
     appBuildOutputPath: 'dist/',
     appName: 'placeholder-app-name',
-    hooks: require('./scripts/buidler-hooks'), // Path to script hooks
+    hooks, // Path to script hooks
   },
 }
