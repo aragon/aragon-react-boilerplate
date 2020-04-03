@@ -1,13 +1,12 @@
 const { hash } = require('eth-ens-namehash')
 const { getEventArgument } = require('@aragon/contract-test-helpers/events')
-
-const Kernel = artifacts.require('@aragon/os/contracts/kernel/Kernel')
-const ACL = artifacts.require('@aragon/os/contracts/acl/ACL')
+const Kernel = artifacts.require('@aragon/abis/os/artifacts/kernel/Kernel')
+const ACL = artifacts.require('@aragon/abis/os/artifacts/acl/ACL')
 const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/os/contracts/factory/EVMScriptRegistryFactory'
+  '@aragon/abis/os/artifacts/factory/EVMScriptRegistryFactory'
 )
 const DAOFactory = artifacts.require(
-  '@aragon/os/contracts/factory/DAOFactory'
+  '@aragon/abis/os/artifacts/factory/DAOFactory'
 )
 
 const newDao = async rootAccount => {
@@ -58,5 +57,5 @@ const newApp = async (dao, appName, baseAppAddress, rootAccount) => {
 
 module.exports = {
   newDao,
-  newApp
+  newApp,
 }
