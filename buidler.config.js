@@ -1,16 +1,19 @@
-const { usePlugin } = require('@nomiclabs/buidler/config')
+const { usePlugin } = require("@nomiclabs/buidler/config");
 
-usePlugin('@aragon/buidler-aragon')
+usePlugin("@aragon/buidler-aragon");
 
 module.exports = {
-  defaultNetwork: 'localhost',
+  defaultNetwork: "localhost",
   networks: {
     localhost: {
-      url: 'http://localhost:8545'
-    },
+      url: "http://localhost:8545"
+    }
+  },
+  etherscan: {
+    apiKey: ""
   },
   solc: {
-    version: '0.4.24',
+    version: "0.4.24",
     optimizer: {
       enabled: true,
       runs: 10000
@@ -19,8 +22,9 @@ module.exports = {
   aragon: {
     appServePort: 8001,
     clientServePort: 3000,
-    appSrcPath: 'app/',
-    appBuildOutputPath: 'dist/',
-    hooks: require('./scripts/buidler-hooks')
+    appSrcPath: "app/",
+    appBuildOutputPath: "dist/",
+    appName: "placeholder-app-name",
+    hooks: require("./scripts/buidler-hooks")
   }
-}
+};

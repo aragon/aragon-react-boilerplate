@@ -3,19 +3,24 @@
   "version": "0.0.1",
   "description": "placeholder-app-description",
   "scripts": {
-    "postinstall": "npm run build-app",
-    "build-app": "cd app && npm install && cd ..",
+    "postinstall": "yarn compile && yarn copy-artifacts && yarn build-app",
+    "copy-artifacts": "cp -R node_modules/@aragon/abis/os/artifacts/. artifacts/.",
+    "build-app": "cd app && yarn && cd ..",
     "compile": "buidler compile --force",
+    "test": "buidler test --network buidlerevm",
     "start": "buidler start",
-    "test": "buidler test --network buidlerevm"
+    "publish:major": "buidler publish major",
+    "publish:minor": "buidler publish minor",
+    "publish:patch": "buidler publish patch"
   },
   "dependencies": {
-    "@aragon/os": "^4.4.0"
+    "@aragon/abis": "^1.1.0"
   },
   "devDependencies": {
-    "@aragon/buidler-aragon": "^0.1.0",
+    "@aragon/buidler-aragon": "^0.2.0-beta.2",
     "@aragon/contract-test-helpers": "0.0.1",
     "@nomiclabs/buidler": "^1.0.2",
+    "@nomiclabs/buidler-etherscan": "^1.0.2",
     "@nomiclabs/buidler-truffle5": "^1.1.2",
     "@nomiclabs/buidler-web3": "^1.1.2",
     "bignumber.js": "^9.0.0",

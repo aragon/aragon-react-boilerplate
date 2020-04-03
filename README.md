@@ -55,10 +55,14 @@ To run the app in a browser with front end plus back end hot reloading, simply r
 ### npm Scripts
 
 - **postinstall**: Runs after installing dependencies.
+- **copy-artifacts**: Add aragonOS artifacts pre compiled. Needed for tests and buidler setup.
 - **build-app**: Installs front end project (app/) dependencies.
 - **start** Runs your app inside a DAO.
 - **compile**: Compiles the smart contracts.
 - **test**: Runs tests for the contracts.
+- **publish:major**: Releases a major version to aragonPM (frontend and contract changes).
+- **publish:minor**: Releases a minor version to aragonPM (only frontend/content changes allowed).
+- **publish:patch**: Releases a patch version to aragonPM (only frontend/content changes allowed).
 
 ### Hooks
 
@@ -66,24 +70,24 @@ These hooks are called by the Aragon Buidler plugin during the start task's life
 
 Link them to the main buidler config file (buidler.config.js) in the `aragon.hooks` property.
 
-All hooks receive two parameters: 1) A params object that may contain other objects that pertain to the particular hook. 2) A "bre" or BuidlerRuntimeEnvironment object that contains enviroment objects like web3, Truffle artifacts, etc.
+All hooks receive two parameters: 1) A params object that may contain other objects that pertain to the particular hook. 2) A "bre" or BuidlerRuntimeEnvironment object that contains environment objects like web3, Truffle artifacts, etc.
 
 ```
   // Called before a dao is deployed.
-  preDao: async ({}, { web3, artifacts }) => {},
+  preDao: async ({ log }, { web3, artifacts }) => {},
 
   // Called after a dao is deployed.
-  postDao: async ({ dao }, { web3, artifacts }) => {},
+  postDao: async ({ dao, _experimentalAppInstaller, log }, { web3, artifacts }) => {},
 
   // Called after the app's proxy is created, but before it's initialized.
-  preInit: async ({ proxy }, { web3, artifacts }) => {},
+  preInit: async ({ proxy, _experimentalAppInstaller, log  }, { web3, artifacts }) => {},
 
   // Called after the app's proxy is initialized.
-  postInit: async ({ proxy }, { web3, artifacts }) => {},
+  postInit: async ({ proxy, _experimentalAppInstaller, log  }, { web3, artifacts }) => {},
 
   // Called when the start task needs to know the app proxy's init parameters.
   // Must return an array with the proxy's init parameters.
-  getInitParams: async ({}, { web3, artifacts }) => {
+  getInitParams: async ({ log }, { web3, artifacts }) => {
     return []
   }
 ```
