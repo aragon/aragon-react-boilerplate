@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "placeholder-app-description",
   "scripts": {
-    "postinstall": "yarn compile && yarn copy-artifacts && yarn build-app",
+    "postinstall": "npm run compile && npm run copy-artifacts && npm run build-app",
     "copy-artifacts": "cp -R node_modules/@aragon/abis/os/artifacts/. artifacts/.",
-    "build-app": "cd app && yarn && cd ..",
+    "build-app": "cd app && npm run && cd ..",
     "compile": "buidler compile --force",
     "test": "buidler test --network buidlerevm",
     "start": "buidler start",
