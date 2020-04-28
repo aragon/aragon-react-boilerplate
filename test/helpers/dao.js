@@ -1,15 +1,15 @@
 const { hash } = require('eth-ens-namehash')
 const { getEventArgument } = require('@aragon/contract-test-helpers/events')
-const Kernel = artifacts.require('@aragon/abis/os/artifacts/kernel/Kernel')
-const ACL = artifacts.require('@aragon/abis/os/artifacts/acl/ACL')
+const Kernel = artifacts.require('@aragon/os/build/contracts/kernel/Kernel')
+const ACL = artifacts.require('@aragon/os/build/contracts/acl/ACL')
 const EVMScriptRegistryFactory = artifacts.require(
-  '@aragon/abis/os/artifacts/factory/EVMScriptRegistryFactory'
+  '@aragon/os/build/contracts/factory/EVMScriptRegistryFactory'
 )
 const DAOFactory = artifacts.require(
-  '@aragon/abis/os/artifacts/factory/DAOFactory'
+  '@aragon/os/build/contracts/factory/DAOFactory'
 )
 
-const newDao = async rootAccount => {
+const newDao = async (rootAccount) => {
   // Deploy a DAOFactory.
   const kernelBase = await Kernel.new(true)
   const aclBase = await ACL.new()
@@ -49,7 +49,7 @@ const newApp = async (dao, appName, baseAppAddress, rootAccount) => {
 
   // Find the deployed proxy address in the tx logs.
   const logs = receipt.logs
-  const log = logs.find(l => l.event === 'NewAppProxy')
+  const log = logs.find((l) => l.event === 'NewAppProxy')
   const proxyAddress = log.args.proxy
 
   return proxyAddress
