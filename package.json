@@ -16,7 +16,7 @@
     "@aragon/os": "^4.4.0"
   },
   "devDependencies": {
-    "@aragon/buidler-aragon": "^0.2.3",
+    "@aragon/buidler-aragon": "^0.2.4",
     "@aragon/contract-test-helpers": "0.0.1",
     "@nomiclabs/buidler": "^1.0.2",
     "@nomiclabs/buidler-etherscan": "^1.0.2",
