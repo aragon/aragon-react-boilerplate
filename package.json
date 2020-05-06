@@ -22,7 +22,6 @@
     "@nomiclabs/buidler-etherscan": "^1.0.2",
     "@nomiclabs/buidler-truffle5": "^1.1.2",
     "@nomiclabs/buidler-web3": "^1.1.2",
-    "bignumber.js": "^9.0.0",
     "web3": "^1.2.6"
   }
 }
