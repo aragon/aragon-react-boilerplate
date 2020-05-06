@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "description": "placeholder-app-description",
   "scripts": {
-    "postinstall": "npm run compile && npm run copy-artifacts && npm run build-app",
-    "copy-artifacts": "cp -R node_modules/@aragon/abis/os/artifacts/. artifacts/.",
-    "build-app": "cd app && npm run install && cd ..",
+    "postinstall": "npm run compile && npm run build-app",
+    "build-app": "cd app && npm install && cd ..",
     "compile": "buidler compile --force",
     "test": "buidler test --network buidlerevm",
     "start": "buidler start",
@@ -14,10 +13,10 @@
     "publish:patch": "buidler publish patch"
   },
   "dependencies": {
-    "@aragon/abis": "^1.1.0"
+    "@aragon/os": "^4.4.0"
   },
   "devDependencies": {
-    "@aragon/buidler-aragon": "^0.2.2",
+    "@aragon/buidler-aragon": "^0.2.4",
     "@aragon/contract-test-helpers": "0.0.1",
     "@nomiclabs/buidler": "^1.0.2",
     "@nomiclabs/buidler-etherscan": "^1.0.2",
