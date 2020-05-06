@@ -94,7 +94,3 @@ root
 - [**@aragon/api**](https://github.com/aragon/aragon.js/tree/master/packages/aragon-api): Aragon client application API.
 - [**@aragon/ui**](https://github.com/aragon/aragon-ui): Aragon UI components (in React).
 - [**@aragon/buidler-aragon**](https://github.com/aragon/buidler-aragon): Aragon Buidler plugin.
-
-### Aditional Information
-
-We have an additional script `copy-artifacts`. We use this script to get the files of the pre-compiled artifacts from `@aragon/abis`. Their purpose is to use it to deploy the aragonOS framework during local development. In a similar way, they can be used during tests.
