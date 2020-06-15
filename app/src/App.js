@@ -30,13 +30,13 @@ function App() {
       <Header
         primary="Counter"
         secondary={
-          <Text
+          <span
             css={`
               ${textStyle('title2')}
             `}
           >
             {count}
-          </Text>
+          </span>
         }
       />
       <Tabs
