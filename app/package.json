@@ -28,6 +28,6 @@
     "serve": "parcel serve index.html --out-dir ../dist/ --no-cache",
     "watch": "npm run watch:script",
     "sync-assets": "copy-aragon-ui-assets ../dist && copyfiles -u 1 './public/**/*' ../dist",
-    "start": "npm run sync-assets && npm run watch:script & npm run devserver"
+    "start": "npm run sync-assets && npm run watch:script & npm run serve"
   }
 }
