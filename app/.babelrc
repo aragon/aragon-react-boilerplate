@@ -13,12 +13,13 @@
             "android >= 4.2"
           ]
         },
-        "useBuiltIns": false
+        "useBuiltIns": "entry",
+        "core-js": 3,
+        "shippedProposals": true,
       }
     ]
   ],
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
     [
       "styled-components",
       {
